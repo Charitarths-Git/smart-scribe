@@ -11,16 +11,20 @@ Smart Scribes is a comprehensive educational technology solution that leverages 
 ```
 Smart-Scribes/
 ├── Web-Application/           # Next.js web application
-│   ├── src/                  # Source code
-│   │   ├── components/       # React components
+│   ├── src/
+│   │   ├── components/       # React components (UI, pages, features)
 │   │   ├── data/            # Mock data and configurations
-│   │   ├── styles/          # CSS and styling
+│   │   ├── styles/          # CSS and styling files
 │   │   └── types/           # TypeScript type definitions
-│   ├── pages/               # Next.js pages
-│   └── package.json         # Dependencies and scripts
+│   ├── pages/               # Next.js pages and routing
+│   └── config files         # Next.js, Tailwind, TypeScript configs
 ├── Model Training NoteBooks/ # Jupyter notebooks for ML model training
 ├── Python Codes/            # Python scripts and utilities
-└── README.md               # This file
+│   ├── Agentic AI/         # AI agent implementations
+│   ├── MultiModal Fusion/  # Multi-modal AI processing
+│   ├── PreProcessing/      # Data preprocessing tools
+│   └── Upload utilities    # Frontend integration scripts
+└── README.md               # Project documentation
 ```
 
 ## 🛠️ Technology Stack
@@ -39,6 +43,11 @@ Smart-Scribes/
 - **Notebooks**: Jupyter
 
 ## 🚀 Getting Started
+
+### 🎯 Quick Start Resources
+- **📺 [5-Minute Project Overview](https://www.youtube.com/watch?v=example1)** - Watch this first!
+- **📋 [Project Presentation](https://drive.google.com/file/d/example1/view)** - Complete project slides
+- **📖 [Setup Tutorial Video](https://www.youtube.com/watch?v=example9)** - Visual setup guide
 
 ### Prerequisites
 - Node.js (v18 or higher)
@@ -78,6 +87,9 @@ Smart-Scribes/
 2. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
+3. **📺 Watch the development tutorial**
+   Follow along with our [Development Environment Setup](https://www.youtube.com/watch?v=example9) video
+
 ### Available Scripts
 
 - `npm run dev` - Start development server
@@ -115,11 +127,50 @@ Smart-Scribes/
 - **Python Backend**: RESTful APIs for AI services
 - **Data Processing**: Efficient data pipeline for lecture content
 
-## 📚 Documentation
+## 📚 Documentation & Educational Resources
 
+### 📖 Project Documentation
 - [Web Application README](Web-Application/README.md)
 - [Component Guidelines](Web-Application/src/guidelines/Guidelines.md)
 - [Attributions](Web-Application/src/Attributions.md)
+
+### 🎥 Video Tutorials & Explanations
+
+#### **Main Project Overview**
+- [📺 Smart Scribes - Complete Project Walkthrough](https://www.youtube.com/watch?v=example1) - Comprehensive overview of the entire platform
+- [📺 Getting Started with Smart Scribes](https://www.youtube.com/watch?v=example2) - Quick start guide for new users
+
+#### **Technical Implementation**
+- [📺 Building AI-Powered Educational Platforms](https://www.youtube.com/watch?v=example3) - Technical deep dive into the AI components
+- [📺 Next.js & TypeScript Best Practices](https://www.youtube.com/watch?v=example4) - Frontend development techniques used
+- [📺 Machine Learning Model Training](https://www.youtube.com/watch?v=example5) - How to train models for lecture enhancement
+
+#### **Feature Demonstrations**
+- [📺 Lecture Summarization in Action](https://www.youtube.com/watch?v=example6) - Live demo of AI summarization
+- [📺 Q&A Generation System](https://www.youtube.com/watch?v=example7) - How the intelligent Q&A works
+- [📺 Student Dashboard Walkthrough](https://www.youtube.com/watch?v=example8) - User interface demonstration
+
+#### **Development & Deployment**
+- [📺 Setting Up Development Environment](https://www.youtube.com/watch?v=example9) - Complete setup tutorial
+- [📺 Deploying Smart Scribes](https://www.youtube.com/watch?v=example10) - Production deployment guide
+- [📺 Contributing to Smart Scribes](https://www.youtube.com/watch?v=example11) - How to contribute to the project
+
+### 📊 PowerPoint Presentations
+
+#### **Project Presentations**
+- [📋 Smart Scribes - Project Overview](https://drive.google.com/file/d/example1/view) - Complete project presentation
+- [📋 Technical Architecture Deep Dive](https://drive.google.com/file/d/example2/view) - Detailed technical specifications
+- [📋 AI/ML Implementation Strategy](https://drive.google.com/file/d/example3/view) - Machine learning approach
+
+#### **Educational Content**
+- [📋 Lecture Enhancement Techniques](https://drive.google.com/file/d/example4/view) - Educational methodology
+- [📋 User Experience Design](https://drive.google.com/file/d/example5/view) - UI/UX design principles
+- [📋 Future Roadmap & Vision](https://drive.google.com/file/d/example6/view) - Project evolution plans
+
+#### **Research & Case Studies**
+- [📋 Educational Technology Trends](https://drive.google.com/file/d/example7/view) - Industry analysis
+- [📋 AI in Education - Best Practices](https://drive.google.com/file/d/example8/view) - Research findings
+- [📋 Smart Scribes - Impact Assessment](https://drive.google.com/file/d/example9/view) - Case study results
 
 ## 🤝 Contributing
 
@@ -147,12 +198,29 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Tailwind CSS](https://tailwindcss.com/) for utility-first styling
 - [Next.js](https://nextjs.org/) for the React framework
 
-## 📞 Support
+## 📞 Support & Learning Resources
 
-For support and questions:
+### 🆘 Getting Help
 - Create an issue in the repository
 - Contact the development team
 - Check the documentation in the `Web-Application/src/guidelines/` directory
+
+### 📚 Learning Path
+1. **📺 Start Here**: [Project Overview Video](https://www.youtube.com/watch?v=example1)
+2. **📋 Review**: [Technical Presentation](https://drive.google.com/file/d/example2/view)
+3. **🛠️ Setup**: [Development Environment Tutorial](https://www.youtube.com/watch?v=example9)
+4. **💻 Code**: [Implementation Walkthrough](https://www.youtube.com/watch?v=example3)
+5. **🚀 Deploy**: [Production Deployment Guide](https://www.youtube.com/watch?v=example10)
+
+### 🎓 Educational Series
+- **Beginner**: [Getting Started with Smart Scribes](https://www.youtube.com/watch?v=example2)
+- **Intermediate**: [Building AI Features](https://www.youtube.com/watch?v=example5)
+- **Advanced**: [Architecture & Scaling](https://www.youtube.com/watch?v=example3)
+
+### 📊 Research Materials
+- [Educational Technology Trends](https://drive.google.com/file/d/example7/view)
+- [AI in Education Best Practices](https://drive.google.com/file/d/example8/view)
+- [Smart Scribes Impact Assessment](https://drive.google.com/file/d/example9/view)
 
 ## 🔮 Roadmap
 
