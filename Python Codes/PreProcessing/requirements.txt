@@ -1,0 +1,16 @@
+--extra-index-url https://download.pytorch.org/whl/cu121
+numpy
+soundfile
+noisereduce
+scipy
+transformers
+torch
+torchvision
+torchaudio
+opencv-python
+sentence-transformers
+Pillow
+easyocr
+openai-whisper
+nemo_toolkit[all]
+wget 
