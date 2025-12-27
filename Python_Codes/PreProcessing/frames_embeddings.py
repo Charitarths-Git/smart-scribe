@@ -15,6 +15,11 @@ logging.set_verbosity_error()
 class VideoTextExtractor:
     
     def __init__(self):
+        import torch
+        from transformers import VisionEncoderDecoderModel, TrOCRProcessor, BlipProcessor, BlipForConditionalGeneration
+        from sentence_transformers import SentenceTransformer
+        import easyocr
+
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         use_gpu = torch.cuda.is_available()
         
@@ -29,12 +34,26 @@ class VideoTextExtractor:
         self.text_detector = easyocr.Reader(['en'], gpu=use_gpu)
 
         print("Loading HTR model (microsoft/trocr-large-handwritten)...")
-        self.htr_processor = TrOCRProcessor.from_pretrained("microsoft/trocr-large-handwritten")
-        self.htr_model = VisionEncoderDecoderModel.from_pretrained("microsoft/trocr-large-handwritten").to(self.device)
+        # Force safetensors to avoid PyTorch 2.6 requirement
+        self.htr_processor = TrOCRProcessor.from_pretrained(
+            "microsoft/trocr-large-handwritten",
+            use_safetensors=True
+        )
+        self.htr_model = VisionEncoderDecoderModel.from_pretrained(
+            "microsoft/trocr-large-handwritten",
+            use_safetensors=True
+        ).to(self.device)
 
         print("Loading Image Captioning model (Salesforce/blip-image-captioning-large)...")
-        self.caption_processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-large")
-        self.caption_model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-large").to(self.device)
+        # BLIP models also support safetensors
+        self.caption_processor = BlipProcessor.from_pretrained(
+            "Salesforce/blip-image-captioning-large",
+            use_safetensors=True
+        )
+        self.caption_model = BlipForConditionalGeneration.from_pretrained(
+            "Salesforce/blip-image-captioning-large",
+            use_safetensors=True
+        ).to(self.device)
 
         print("Loading NLP embedding model (all-MiniLM-L6-v2)...")
         self.embedding_model = SentenceTransformer("all-MiniLM-L6-v2", device=self.device)

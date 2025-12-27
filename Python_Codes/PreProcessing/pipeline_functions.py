@@ -18,11 +18,12 @@ def preprocess_video_with_ffmpeg(video_path, target_fps=2.0, output_folder="fram
     print(f"Creating new temp folder: {output_folder}")
     os.makedirs(output_folder)
     command = [
-        'ffmpeg',
-        '-i', str(video_path),
-        '-vf', f'fps={target_fps}',
-        f'{output_folder}/frame_%04d.png'
-    ]
+    r"D:\ffmpeg-2025-10-19-git-dc39a576ad-essentials_build\ffmpeg-2025-10-19-git-dc39a576ad-essentials_build\bin\ffmpeg.exe",
+    "-i", video_path,
+    "-filter:v", f"fps={target_fps}",
+    os.path.join(output_folder, "frame_%05d.png")  # Use frames_temp/frame_00001.png etc.
+]
+
 
     subprocess.run(command, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
     print(f" FFmpeg processing complete. Frames are in: {output_folder}")

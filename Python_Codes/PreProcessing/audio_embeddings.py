@@ -42,15 +42,16 @@ class AudioVectorizer:
                     tmp_path = tmp_file.name
                 
                 command = [
-                    'ffmpeg',
-                    '-i', str(audio_path),
-                    '-vn',
-                    '-acodec', 'pcm_s16le',
-                    '-ar', '16000', # Resample to the 16kHz needed by Whisper
-                    '-ac', '1',      # Force mono
-                    '-y',
-                    tmp_path
-                ]
+    r"D:\ffmpeg-2025-10-19-git-dc39a576ad-essentials_build\ffmpeg-2025-10-19-git-dc39a576ad-essentials_build\bin\ffmpeg.exe",
+    '-i', str(audio_path),
+    '-vn',
+    '-acodec', 'pcm_s16le',
+    '-ar', '16000',
+    '-ac', '1',
+    '-y',
+    tmp_path
+]
+
                 
                 try:
                     subprocess.run(command, capture_output=True, text=True, check=True, encoding='utf-8')

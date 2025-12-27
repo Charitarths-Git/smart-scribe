@@ -1,1 +1,0 @@
-It is a directory to store temporary frames for the 5 mins snippet for processing.
