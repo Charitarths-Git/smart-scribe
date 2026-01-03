@@ -137,9 +137,11 @@ export function LectureContent({ content }: LectureContentProps) {
                   transition={{ duration: 0.3 }}
                   className="space-y-4"
                 >
+                  
                   {content.content.map((section, idx) => (
                     <motion.div
                       key={section.id}
+                      
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: idx * 0.1 }}

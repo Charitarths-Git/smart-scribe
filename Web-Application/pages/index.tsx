@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { LandingPage } from '../src/components/LandingPage';
 import { StudentDashboard } from '../src/components/StudentDashboard';
+import { ProfessorDashboard } from '../src/components/ProfessorDashboard';
+
 
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -30,18 +32,6 @@ export default function Home() {
   }
 
   // Placeholder for professor view
-  return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-3xl mb-4">Professor Dashboard</h1>
-        <p className="text-gray-600 mb-6">Coming soon...</p>
-        <button
-          onClick={handleLogout}
-          className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-        >
-          Logout
-        </button>
-      </div>
-    </div>
-  );
+  if (userRole === 'professor')
+    return <ProfessorDashboard onLogout={handleLogout} />;
 }

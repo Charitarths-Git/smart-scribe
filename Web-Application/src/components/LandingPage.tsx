@@ -18,6 +18,7 @@ export function LandingPage({ onLogin }: LandingPageProps) {
   const [studentGmail, setStudentGmail] = useState<string>('');
   const [studentCourse, setStudentCourse] = useState<string>('');
   const [studentYear, setStudentYear] = useState<string>('');
+  const [profGmail, setProfGmail] = useState<string>(''); // ✅ Added: Professor Gmail
   const [showAllInstitutes, setShowAllInstitutes] = useState<boolean>(false);
 
   const initialInstitutesToShow = 6;
@@ -27,6 +28,10 @@ export function LandingPage({ onLogin }: LandingPageProps) {
     if (selectedRole && selectedInstitute) {
       if (selectedRole === 'student' && (!studentGmail || !studentCourse || !studentYear)) {
         alert('Please fill in all student details.');
+        return;
+      }
+      if (selectedRole === 'professor' && !profGmail) {
+        alert('Please enter your email.');
         return;
       }
       onLogin(selectedRole, selectedInstitute);
@@ -87,10 +92,7 @@ export function LandingPage({ onLogin }: LandingPageProps) {
           >
             <h2 className="text-2xl text-center mb-6">Select Your Role</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-              <motion.div
-                whileHover={{ scale: 1.02, y: -5 }}
-                whileTap={{ scale: 0.98 }}
-              >
+              <motion.div whileHover={{ scale: 1.02, y: -5 }} whileTap={{ scale: 0.98 }}>
                 <Card
                   className="p-8 cursor-pointer border-2 hover:border-blue-500 hover:shadow-lg transition-all"
                   onClick={() => setSelectedRole('student')}
@@ -103,10 +105,7 @@ export function LandingPage({ onLogin }: LandingPageProps) {
                 </Card>
               </motion.div>
 
-              <motion.div
-                whileHover={{ scale: 1.02, y: -5 }}
-                whileTap={{ scale: 0.98 }}
-              >
+              <motion.div whileHover={{ scale: 1.02, y: -5 }} whileTap={{ scale: 0.98 }}>
                 <Card
                   className="p-8 cursor-pointer border-2 hover:border-purple-500 hover:shadow-lg transition-all"
                   onClick={() => setSelectedRole('professor')}
@@ -131,24 +130,15 @@ export function LandingPage({ onLogin }: LandingPageProps) {
             className="max-w-5xl mx-auto"
           >
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl">
-                Select Your Institute
-              </h2>
-              <Button
-                variant="ghost"
-                onClick={() => setSelectedRole(null)}
-              >
+              <h2 className="text-2xl">Select Your Institute</h2>
+              <Button variant="ghost" onClick={() => setSelectedRole(null)}>
                 Change Role
               </Button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
               {visibleInstitutes.map((institute) => (
-                <motion.div
-                  key={institute.id}
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                >
+                <motion.div key={institute.id} whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
                   <Card
                     className={`p-6 cursor-pointer border-2 transition-all ${
                       selectedInstitute === institute.id
@@ -172,15 +162,13 @@ export function LandingPage({ onLogin }: LandingPageProps) {
 
             {institutes.length > initialInstitutesToShow && (
               <div className="text-center mb-8">
-                <Button
-                  variant="ghost"
-                  onClick={() => setShowAllInstitutes(!showAllInstitutes)}
-                >
+                <Button variant="ghost" onClick={() => setShowAllInstitutes(!showAllInstitutes)}>
                   {showAllInstitutes ? 'View Less' : 'View More'}
                 </Button>
               </div>
             )}
 
+            {/* Student Details */}
             {selectedRole === 'student' && selectedInstitute && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -228,6 +216,30 @@ export function LandingPage({ onLogin }: LandingPageProps) {
               </motion.div>
             )}
 
+            {/* ✅ Added: Professor Gmail input */}
+            {selectedRole === 'professor' && selectedInstitute && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="space-y-4 mb-8"
+              >
+                <h3 className="text-xl text-center">Professor Details</h3>
+                <div>
+                  <Label htmlFor="profGmail">Gmail</Label>
+                  <Input
+                    id="profGmail"
+                    type="email"
+                    placeholder="professor.email@example.com"
+                    value={profGmail}
+                    onChange={(e) => setProfGmail(e.target.value)}
+                    className="mt-1"
+                  />
+                </div>
+              </motion.div>
+            )}
+
+            {/* Continue Button */}
             <motion.div
               className="text-center"
               initial={{ opacity: 0 }}

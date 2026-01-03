@@ -15,6 +15,13 @@ module.exports = {
         "2xl": "1400px",
       },
     },
+    screens: {
+      sm: '640px',
+      md: '768px',
+      // Make lg start *above* 1024px → iPad Pro counts as md
+      lg: '1080px',
+      xl: '1280px',
+    },
     extend: {
       colors: {
         border: "hsl(var(--border))",
