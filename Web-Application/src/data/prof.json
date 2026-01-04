@@ -1,0 +1,53 @@
+{
+  "professorId": "prof123",
+  "name": "Dr. John Doe",
+  "courses": [
+    {
+      "id": "c1",
+      "courseName": "Machine Learning",
+      "courseCode": "CS305",
+      "semester": "odd",
+      "academicYear": "2025-26",
+      "materials": {
+        "slides": ["Week1-Intro.pdf", "Week2-Regression.pdf"],
+        "recordings": ["Lecture1.mp4"],
+        "notes": ["ML-Notes.docx"]
+      }
+    },
+    {
+      "id": "c2",
+      "courseName": "Data Structures",
+      "courseCode": "CS201",
+      "semester": "even",
+      "academicYear": "2024-25",
+      "materials": {
+        "slides": [],
+        "recordings": ["DS-Stacks.mp4"],
+        "notes": []
+      }
+    }
+  ],
+  "doubts": [
+    {
+      "id": "d1",
+      "courseId": "c1",
+      "studentName": "Alice Sharma",
+      "question": "Can you explain the difference between supervised and unsupervised learning again?",
+      "date": "2025-10-20"
+    },
+    {
+      "id": "d2",
+      "courseId": "c2",
+      "studentName": "Rohit Kumar",
+      "question": "In the stack implementation, why do we use an array instead of a linked list?",
+      "date": "2025-10-22"
+    },
+    {
+      "id": "d3",
+      "courseId": "c1",
+      "studentName": "Kiran Joshi",
+      "question": "Will the midterm cover gradient descent derivations?",
+      "date": "2025-10-24"
+    }
+  ]
+}
