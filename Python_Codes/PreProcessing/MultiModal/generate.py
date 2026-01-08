@@ -37,7 +37,7 @@ class LectureDocumentGenerator:
         
         # Extract data
         book_refs = segment_data.get('book_references', [])
-        lecture_audio_text = segment_data.get('lecture_audio_text', '')  # ← NEW!
+        lecture_audio_text = segment_data.get('lecture_audio_text')  # ← NEW!
         
         print(f"\n--- DEBUG Segment {segment_data['segment_id'] + 1} ---")
         print(f"Audio transcript length: {len(lecture_audio_text)} chars")
@@ -65,18 +65,18 @@ class LectureDocumentGenerator:
         # Create comprehensive prompt with BOTH lecture audio AND book content
         prompt = f"""You are an expert academic summarizer. Create a comprehensive lecture summary.
 
-**Lecture Segment Information:**
+Lecture Segment Information:
 - Segment Number: {segment_data['segment_id'] + 1}
 - Time: {self.format_timestamp(segment_data['timestamp_start'])} - {self.format_timestamp(segment_data['timestamp_end'])}
 
-**What the Lecturer Actually Said (Audio Transcript):**
+What the Lecturer Actually Said (Audio Transcript):
 "{lecture_audio_text if lecture_audio_text else '[No audio transcript available for this segment]'}"
 
-{book_refs_text}
+{book_refs_text.replace('*', '').replace('#', '')}
 
-{context_text}
+{context_text.replace('*', '').replace('#', '')}
 
-**Your Task:**
+Your Task:
 Generate a detailed, well-structured summary that:
 1. Captures what was discussed in the lecture (from the transcript above)
 2. Explains main topics and key concepts covered
@@ -85,9 +85,14 @@ Generate a detailed, well-structured summary that:
 5. Uses clear, academic yet friendly language
 6. Is approximately 200-300 words
 
-**Format:** Write in markdown with proper headings and bullet points where appropriate.
+Output Formatting Instructions:
+- Do not use any Markdown symbols such as *, #, **, or underscores.
+- Do not use quotation marks around headings.
+- Use plain text headings written in uppercase followed by a colon (e.g., SUMMARY:, KEY POINTS:, REFERENCES:).
+- Use simple dashes (-) for bullet points.
+- Keep the output readable and suitable for saving directly to a .txt file.
 
-**Summary:**"""
+SUMMARY:"""
 
         print(f"Prompt length: {len(prompt)} chars")
         if lecture_audio_text:
@@ -140,7 +145,7 @@ Generate a detailed, well-structured summary that:
         print("--- END DEBUG ---\n")
         return summary
 
-    def generate_full_document(self, all_segments_data, output_path="lecture_summary.md"):
+    def generate_full_document(self, all_segments_data, output_path="lecture_summary.txt"):
         """Generate complete lecture summary document with all segments"""
         
         print(f"\n{'='*80}")

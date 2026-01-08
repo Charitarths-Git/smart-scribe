@@ -5,7 +5,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 import json
 from pathlib import Path
-from generate import *
+from .generate import *
 
 
 import os
@@ -86,16 +86,3 @@ class BookEmbeddingProcessor:
             metadata = json.load(f)
         return embeddings, metadata
 
-
-# Usage example for processing your books
-book_processor = BookEmbeddingProcessor()
-
-# Process one or multiple books
-books = [
-    {"pdf_path": r"D:\SMART_SCRIBE\Smart-Scribes\Python_Codes\book\stative-verbs-list.pdf", "book_name": "static_verb_list"},
-    
-]
-
-for book in books:
-    chunks = book_processor.chunk_and_embed_book(book['pdf_path'], book['book_name'])
-    book_processor.save_book_embeddings(chunks, f"book_embeddings/{book['book_name']}")

@@ -1,0 +1,26 @@
+--extra-index-url https://download.pytorch.org/whl/cu121
+numpy
+soundfile
+noisereduce
+scipy
+transformers
+opencv-python
+sentence-transformers
+Pillow
+easyocr
+openai-whisper
+wget
+groq
+PyPDF2
+langchain
+langchain_text_splitters
+dotenv
+google
+google-genai
+google.generativeai
+manim
+
+# requested to make a virtual enivironmnet using python 3.12
+#pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121 in terminal
+#download ffmpeg and add the path of ffmpeg.exe to Python_Codes/PreProcessing/audo_embeddings.py and the same change in Python_Codes/PreProcessing/pipeline_functions.py
+#chnage path for manim.exe

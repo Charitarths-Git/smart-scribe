@@ -42,16 +42,15 @@ class AudioVectorizer:
                     tmp_path = tmp_file.name
                 
                 command = [
-    r"D:\ffmpeg-2025-10-19-git-dc39a576ad-essentials_build\ffmpeg-2025-10-19-git-dc39a576ad-essentials_build\bin\ffmpeg.exe",
-    '-i', str(audio_path),
-    '-vn',
-    '-acodec', 'pcm_s16le',
-    '-ar', '16000',
-    '-ac', '1',
-    '-y',
-    tmp_path
-]
-
+                    'C:/ffmpeg-master-latest-win64-gpl-shared/bin/ffmpeg.exe', # make the path change here
+                    '-i', str(audio_path),
+                    '-vn',
+                    '-acodec', 'pcm_s16le',
+                    '-ar', '16000', # Resample to the 16kHz needed by Whisper
+                    '-ac', '1',      # Force mono
+                    '-y',
+                    tmp_path
+                ]
                 
                 try:
                     subprocess.run(command, capture_output=True, text=True, check=True, encoding='utf-8')
@@ -128,5 +127,5 @@ class AudioVectorizer:
         print(f"         Generating text embedding...")
         embedding = self.embedding_model.encode(text)
         print(f"           Embedding generated (Shape: {embedding.shape}).")
-        return embedding
+        return text, embedding
 

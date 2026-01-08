@@ -5,15 +5,20 @@ from tqdm import tqdm
 import sys
 from frames_embeddings import VideoTextExtractor
 from audio_embeddings import AudioVectorizer
-from pipeline_functions import preprocess_video_with_ffmpeg, load_frames_from_folder, create_batches
+from pipeline_functions import *
+from MultiModal.generate import *
+from MultiModal.pdf_embedding import *
+from MultiModal.lecture_to_bookmatch import *
+import json
 
 VIDEO_DIM = 384
 AUDIO_DIM = 384
-VIDEO_SNIPPET_FILE = r"D:\SMART_SCRIBE\Smart-Scribes\Python_Codes\PreProcessing\video\videoplayback.mp4"
-AUDIO_SNIPPET_FILE = r"D:\SMART_SCRIBE\Smart-Scribes\Python_Codes\PreProcessing\audio\audio.wav"
+VIDEO_SNIPPET_FILE = "video/video_2.mp4"
+AUDIO_SNIPPET_FILE = "audio/output_audio.webm"
 OUTPUT_FUSED_FILE = "fused_final.npy"
 OUTPUT_AUDIO_FILE = "audio_embeddings.npy"
 OUTPUT_VIDEO_FILE = "video_embeddings.npy"
+FULL_JSON = "full_data.json"
 
 print("\nLoading all models... (This may take a moment)")
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -45,8 +50,10 @@ if num_segments == 0:
 print(f"\n--- Starting full processing for {num_segments} segments ---")
 
 fused_vectors = []  # List to collect fused vectors
-audio_embeddings = []  # Store audio vectors
+audio_embeddings_all = []  # Store audio vectors
 video_embeddings = []  # Store video vectors
+
+audio_data = {}
 
 for i in tqdm(range(num_segments), desc="Processing & Fusing Segments"):
     video_batch = video_batches[i]
@@ -61,19 +68,65 @@ for i in tqdm(range(num_segments), desc="Processing & Fusing Segments"):
     else:
         video_vec_np = np.zeros(VIDEO_DIM) 
         
-    audio_vec_np = np.array(audio_vectorizer.get_transcript_embedding(audio_segment,sr))
+    audio_text_new, audio_embeddings = audio_vectorizer.get_transcript_embedding(audio_segment,sr)
+    
+    audio_vec_np = np.array(audio_embeddings)
     v_interaction = audio_vec_np * video_vec_np
     v_fused = np.concatenate((audio_vec_np, video_vec_np, v_interaction))
     
     fused_vectors.append(v_fused)
-    audio_embeddings.append(audio_vec_np)
+    audio_embeddings_all.append(audio_vec_np)
     video_embeddings.append(video_vec_np)
 
-# Save all embeddings
+    audio_data[f"segment_{i+1}"] = {
+        "transcript": audio_text_new.strip(),
+        "video_text": cleaned_text.strip(),
+    }
+
+with open(FULL_JSON, "w", encoding="utf-8") as f:
+    json.dump(audio_data, f, ensure_ascii=False, indent=4)
+
 np.save(OUTPUT_FUSED_FILE, np.stack(fused_vectors))
-np.save(OUTPUT_AUDIO_FILE, np.stack(audio_embeddings))
+np.save(OUTPUT_AUDIO_FILE, np.stack(audio_embeddings_all))
 np.save(OUTPUT_VIDEO_FILE, np.stack(video_embeddings))
 
-print(f"\nSaved {len(fused_vectors)} fused vectors to '{OUTPUT_FUSED_FILE}'")
-print(f"Saved {len(audio_embeddings)} audio embeddings to '{OUTPUT_AUDIO_FILE}'")
-print(f"Saved {len(video_embeddings)} video embeddings to '{OUTPUT_VIDEO_FILE}'")
+
+book_processor = BookEmbeddingProcessor()
+chunks = book_processor.chunk_and_embed_book(
+    "book/LectureCh10.pdf",
+    "LectureCh10"
+)
+book_processor.save_book_embeddings(chunks, "book_embeddings/Stative_Verbs_List")
+print(f"✅ Book embeddings created: {len(chunks)} chunks")
+
+# Step 2: Match lecture segments
+print("\n" + "=" * 80)
+print("Step 2: Matching lecture with book content...")
+print("=" * 80)
+matcher = LectureBookMatcher(
+    similarity_threshold=0.3,
+    seconds_per_embedding=10,
+    segment_duration_minutes=5
+)
+matcher.load_book_database("book_embeddings/Stative_Verbs_List")
+
+matcher.load_full_data(FULL_JSON)
+
+segment_matches = matcher.process_lecture_segments(
+    fused_embeddings_path="fused_final.npy",
+    video_embeddings_path="video_embeddings.npy"
+)
+
+with open("lecture_book_matches.json", 'w', encoding='utf-8') as f:
+    json.dump(segment_matches, f, indent=2)
+
+print(f"✅ Matched {len(segment_matches)} segments with book content")
+
+print("\n" + "=" * 80)
+print("Step 3: Generating comprehensive lecture document...")
+print("=" * 80)
+doc_generator = LectureDocumentGenerator()
+final_document = doc_generator.generate_full_document(
+    segment_matches,
+    output_path="comprehensive_lecture_summary.txt"
+)

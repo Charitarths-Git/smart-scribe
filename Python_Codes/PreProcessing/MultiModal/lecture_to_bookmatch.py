@@ -2,7 +2,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.preprocessing import normalize
 import numpy as np
 import json
-from pdf_embedding import BookEmbeddingProcessor
+from .pdf_embedding import BookEmbeddingProcessor
 
 
 class LectureBookMatcher:
@@ -18,7 +18,7 @@ class LectureBookMatcher:
         self.similarity_threshold = similarity_threshold
         self.book_embeddings = None
         self.book_metadata = None
-        self.audio_transcripts = None
+        self.full_data = None
         
         self.seconds_per_embedding = seconds_per_embedding
         self.segment_duration_seconds = segment_duration_minutes * 60
@@ -35,51 +35,39 @@ class LectureBookMatcher:
         self.book_metadata = book_metadata
         print(f"✅ Loaded {len(self.book_embeddings)} book chunks")
     
-    def load_audio_transcripts(self, transcripts_path):
+    def load_full_data(self, full_data_path):
         """
-        Load audio transcripts from JSON file
-        
-        Expected format (from audio_transcripts.json):
+        Load full_data.json which contains both transcript and video_text for each segment
+
+        Expected format:
         {
-            "total_segments": 389,
-            "segment_duration_seconds": 10,
-            "segments": [
-                {"segment_id": 0, "start_time": 0, "end_time": 10, "text": "SO, THEIR MOMENT..."},
-                {"segment_id": 1, "start_time": 10, "end_time": 20, "text": "RIGHT. SO, NOW..."},
-                ...
-            ]
+            "segment_1": {
+                "transcript": "HELLO STUDENTS...",
+                "video_text": "arafed man walking..."
+            },
+            "segment_2": {...},
+            ...
         }
         """
         try:
-            with open(transcripts_path, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-                
-                # Extract segments from JSON
-                segments = data.get('segments', [])
-                
-                # Create dictionary mapping segment_id to text (10-second clips)
-                self.audio_transcripts = {}
-                for seg in segments:
-                    seg_id = seg.get('segment_id')
-                    text = seg.get('text', '').strip()
-                    if seg_id is not None and text:
-                        self.audio_transcripts[seg_id] = text
-                
-                print(f"✅ Loaded audio transcripts for {len(self.audio_transcripts)} 10-second segments")
-                
-                # Show sample
-                if self.audio_transcripts:
-                    sample_ids = sorted(list(self.audio_transcripts.keys()))[:3]
-                    for sample_id in sample_ids:
-                        preview = self.audio_transcripts[sample_id][:80]
-                        print(f"   Seg {sample_id}: {preview}...")
-                
+            with open(full_data_path, 'r', encoding='utf-8') as f:
+                self.full_data = json.load(f)
+
+            print(f"✅ Loaded full_data.json with {len(self.full_data)} segments")
+
+            # Show sample
+            if self.full_data:
+                sample_keys = sorted(list(self.full_data.keys()), key=lambda x: int(x.split('_')[1]))[:3]
+                for key in sample_keys:
+                    transcript_preview = self.full_data[key]['transcript'][:80]
+                    print(f"   {key}: {transcript_preview}...")
+
         except FileNotFoundError:
-            print(f"⚠️  Warning: Could not find {transcripts_path}")
-            self.audio_transcripts = {}
+            print(f"⚠ Warning: Could not find {full_data_path}")
+            self.full_data = {}
         except Exception as e:
-            print(f"⚠️  Warning: Could not load audio transcripts: {e}")
-            self.audio_transcripts = {}
+            print(f"⚠ Warning: Could not load full_data.json: {e}")
+            self.full_data = {}
 
     def find_relevant_book_sections(self, lecture_embeddings_batch, top_k=5):
         """
@@ -163,107 +151,110 @@ class LectureBookMatcher:
         
         return sorted(context_to_include)
 
-    def aggregate_audio_transcripts(self, start_embedding_idx, end_embedding_idx):
+    def aggregate_segment_data(self, start_embedding_idx, end_embedding_idx):
         """
-        Aggregate audio transcripts for a 5-minute segment from 10-second clips
-        
+        Aggregate data from full_data.json for a 5-minute segment
+
         Args:
-            start_embedding_idx: Starting index of embeddings for this segment
-            end_embedding_idx: Ending index of embeddings for this segment
-            
+            start_embedding_idx: Starting index (corresponds to segment_1, segment_2, etc.)
+            end_embedding_idx: Ending index
+
         Returns:
-            Combined audio transcript text for the segment
+            Dictionary with combined transcript and video_text
         """
-        if not self.audio_transcripts:
-            return ""
-        
-        # Each embedding is 10 seconds, so embedding index = segment_id in audio_transcripts
-        audio_texts = []
-        
-        for embed_idx in range(start_embedding_idx, end_embedding_idx):
-            if embed_idx in self.audio_transcripts:
-                audio_texts.append(self.audio_transcripts[embed_idx])
-        
-        # Join all audio texts from this segment with space
-        combined_text = " ".join(audio_texts)
-        return combined_text
+        if not self.full_data:
+            return {"transcript": "", "video_text": ""}
+
+        transcripts = []
+        video_texts = []
+
+        # full_data.json uses 1-based indexing (segment_1, segment_2, ...)
+        # while our embedding indices are 0-based
+        for i in range(start_embedding_idx, end_embedding_idx):
+            segment_key = f"segment_{i + 1}"  # Convert to 1-based
+            if segment_key in self.full_data:
+                data = self.full_data[segment_key]
+                transcripts.append(data.get('transcript', ''))
+                video_texts.append(data.get('video_text', ''))
+
+        return {
+            "transcript": " ".join(transcripts),
+            "video_text": " ".join(video_texts),}
 
     def process_lecture_segments(self, fused_embeddings_path, video_embeddings_path):
         """
         Process all lecture segments and match with books
-        
         Each 5-minute segment contains 30 embeddings (10 seconds each)
-        This function aggregates the 30 10-second audio transcripts into one 5-minute segment
-        
+
         Returns:
             List of segment data with book references, transcripts, and context
         """
         # Load embeddings
         fused_embeddings = np.load(fused_embeddings_path)
         video_embeddings = np.load(video_embeddings_path)
-        
+
         total_embeddings = len(video_embeddings)
         print(f"\n✅ Total embeddings loaded: {total_embeddings}")
-        
+
         # Calculate number of segments
         num_segments = total_embeddings // self.embeddings_per_segment
         remainder = total_embeddings % self.embeddings_per_segment
         if remainder > 0:
             num_segments += 1
-        
+
         print(f"📊 Processing {num_segments} lecture segments...")
         print(f"   Duration per segment: {self.segment_duration_seconds} seconds")
         print(f"   Embeddings per segment: {self.embeddings_per_segment}")
-        print(f"   Audio segments to aggregate: {self.embeddings_per_segment} × 10 seconds each\n")
-        
+        print(f"   Data to aggregate: {self.embeddings_per_segment} × 10 seconds each\n")
+
         all_matches = []
         embedding_history = []
-        
+
         for seg_idx in range(num_segments):
             # Get embeddings for this segment
             start_idx = seg_idx * self.embeddings_per_segment
             end_idx = min(start_idx + self.embeddings_per_segment, total_embeddings)
-            
             segment_embeddings = video_embeddings[start_idx:end_idx]
-            
+
             print(f"--- Segment {seg_idx + 1}/{num_segments} ---")
-            print(f"  Embeddings: {start_idx}-{end_idx} ({len(segment_embeddings)} embeddings)")
-            
+            print(f"   Embeddings: {start_idx}-{end_idx} ({len(segment_embeddings)} embeddings)")
+
             # Find relevant book sections
             book_matches = self.find_relevant_book_sections(segment_embeddings, top_k=5)
-            
+
             # Determine context from previous segments
             context_indices = self.should_include_context(segment_embeddings, embedding_history)
-            
-            # ✅ FIXED: Aggregate audio transcripts for this 5-minute segment
-            # Map embedding indices to audio transcript segment IDs (they're the same!)
-            audio_text = self.aggregate_audio_transcripts(start_idx, end_idx)
-            
+
+            # Aggregate data from full_data.json
+            segment_data_combined = self.aggregate_segment_data(start_idx, end_idx)
+
             # Calculate timestamps in minutes
             timestamp_start = seg_idx * self.segment_duration_seconds // 60
             timestamp_end = (seg_idx + 1) * self.segment_duration_seconds // 60
-            
+
             segment_data = {
                 "segment_id": seg_idx,
                 "timestamp_start": timestamp_start,
                 "timestamp_end": timestamp_end,
-                "lecture_audio_text": audio_text,  # ← Aggregated from 30 10-second clips
+                "lecture_audio_text": segment_data_combined['transcript'],
+                "lecture_video_text": segment_data_combined['video_text'],
                 "book_references": book_matches,
                 "context_segments": context_indices,
                 "num_embeddings_in_segment": len(segment_embeddings)
             }
-            
+
             all_matches.append(segment_data)
             embedding_history.append(segment_embeddings)
-            
+
             # Debug output
-            if audio_text:
-                audio_preview = audio_text[:100].replace('\n', ' ')
-                print(f"  Audio: {len(audio_text)} chars - {audio_preview}...")
+            if segment_data_combined['transcript']:
+                audio_preview = segment_data_combined['transcript'][:100].replace('\n', ' ')
+                print(f"   Transcript: {len(segment_data_combined['transcript'])} chars - {audio_preview}...")
             else:
-                print(f"  Audio: NOT FOUND (check audio_transcripts.json)")
-            print(f"  Book refs: {len(book_matches)}")
-            print(f"  Context: {context_indices}\n")
-        
+                print(f"   Transcript: NOT FOUND")
+
+            print(f"   Book refs: {len(book_matches)}")
+            print(f"   Context: {context_indices}\n")
+
         print(f"\n✅ Processed {num_segments} segments successfully")
         return all_matches
