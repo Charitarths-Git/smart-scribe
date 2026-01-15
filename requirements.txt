@@ -19,8 +19,17 @@ google
 google-genai
 google.generativeai
 manim
+google-cloud-storage
+PyMuPDF
+langdetect
 
-# requested to make a virtual enivironmnet using python 3.12
-#pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121 in terminal
+#create env file having :
+    # GEMINI_API_KEY = "your api key"
+    # MANIM_EXECUTABLE= "you path for manim.exe on your system"
+    # GOOGLE_APPLICATION_CREDENTIALS = "smart-scribe-476307-5ee2fff2dc48.json" (google cloud storage json)
+#requested to make a virtual enivironmnet using python 3.12
+#pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121 in terminal (run this command on the terminal) 
 #download ffmpeg and add the path of ffmpeg.exe to Python_Codes/PreProcessing/audo_embeddings.py and the same change in Python_Codes/PreProcessing/pipeline_functions.py
-#chnage path for manim.exe
+#change path for manim.exe in .env file after creation
+#mention about all_data.txt it is the output from audio, video and text fusion it would be generated after running the code.
+#the final json sent for frontend is the merged_all_in_one_gemini.json file.
