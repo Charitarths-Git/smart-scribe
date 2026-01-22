@@ -1,8 +1,9 @@
+'use client';
+
 import { useState } from 'react';
 import { LandingPage } from '../src/components/LandingPage';
 import { StudentDashboard } from '../src/components/StudentDashboard';
 import { ProfessorDashboard } from '../src/components/ProfessorDashboard';
-
 
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -25,13 +26,11 @@ export default function Home() {
     return <LandingPage onLogin={handleLogin} />;
   }
 
-  // For now, only student dashboard is implemented
-  // Professor dashboard can be added similarly
   if (userRole === 'student') {
     return <StudentDashboard onLogout={handleLogout} />;
   }
 
-  // Placeholder for professor view
-  if (userRole === 'professor')
+  if (userRole === 'professor') {
     return <ProfessorDashboard onLogout={handleLogout} />;
+  }
 }

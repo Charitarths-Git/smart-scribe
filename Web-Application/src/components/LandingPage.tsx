@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { GraduationCap, BookOpen, Brain, Sparkles } from 'lucide-react';
 import { Button } from './ui/button';
@@ -6,33 +6,59 @@ import { Card } from './ui/card';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './ui/select';
-import { institutes } from '../data/mockData';
+import { getInstitutes } from '../lib/api';
+import { Institute } from '../types';
 
 interface LandingPageProps {
   onLogin: (role: 'student' | 'professor', institute: string) => void;
 }
 
 export function LandingPage({ onLogin }: LandingPageProps) {
+  const [institutes, setInstitutes] = useState<Institute[]>([]);
   const [selectedRole, setSelectedRole] = useState<'student' | 'professor' | null>(null);
   const [selectedInstitute, setSelectedInstitute] = useState<string>('');
   const [studentGmail, setStudentGmail] = useState<string>('');
   const [studentCourse, setStudentCourse] = useState<string>('');
   const [studentYear, setStudentYear] = useState<string>('');
-  const [profGmail, setProfGmail] = useState<string>(''); // ✅ Added: Professor Gmail
+  const [profGmail, setProfGmail] = useState<string>(''); 
   const [showAllInstitutes, setShowAllInstitutes] = useState<boolean>(false);
+
+  useEffect(() => {
+    async function loadInstitutes() {
+      try {
+        const institutesData = await getInstitutes();
+        setInstitutes(institutesData);
+      } catch (error) {
+        console.error('Error loading institutes:', error);
+      }
+    }
+    loadInstitutes();
+  }, []);
 
   const initialInstitutesToShow = 6;
   const visibleInstitutes = showAllInstitutes ? institutes : institutes.slice(0, initialInstitutesToShow);
 
   const handleContinue = () => {
     if (selectedRole && selectedInstitute) {
-      if (selectedRole === 'student' && (!studentGmail || !studentCourse || !studentYear)) {
-        alert('Please fill in all student details.');
-        return;
+      if (selectedRole === 'student') {
+        if (!studentGmail || !studentCourse || !studentYear) {
+          alert('Please fill in all student details.');
+          return;
+        }
+        if (studentGmail !== 'demo@gmail.com') {
+          alert('Please enter a valid Gmail or use demo Gmail');
+          return;
+        }
       }
-      if (selectedRole === 'professor' && !profGmail) {
-        alert('Please enter your email.');
-        return;
+      if (selectedRole === 'professor') {
+        if (!profGmail) {
+          alert('Please enter your email.');
+          return;
+        }
+        if (profGmail !== 'demo@gmail.com') {
+          alert('Please enter a valid Gmail or use demo Gmail');
+          return;
+        }
       }
       onLogin(selectedRole, selectedInstitute);
     }
@@ -170,35 +196,41 @@ export function LandingPage({ onLogin }: LandingPageProps) {
 
             {/* Student Details */}
             {selectedRole === 'student' && selectedInstitute && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="space-y-4 mb-8"
-              >
+              <motion.div className="space-y-4 mb-8">
                 <h3 className="text-xl text-center">Student Details</h3>
                 <div>
                   <Label htmlFor="studentGmail">Gmail</Label>
-                  <Input
-                    id="studentGmail"
-                    type="email"
-                    placeholder="your.email@example.com"
-                    value={studentGmail}
-                    onChange={(e) => setStudentGmail(e.target.value)}
-                    className="mt-1"
-                  />
+                  <div className="flex gap-2 mt-1">
+                    <Input
+                      id="studentGmail"
+                      type="email"
+                      placeholder="Enter your Gmail"
+                      value={studentGmail}
+                      onChange={(e) => setStudentGmail(e.target.value)}
+                    />
+                    <Button
+                      variant="outline"
+                      onClick={() => setStudentGmail('demo@gmail.com')}
+                    >
+                      Use Demo Gmail
+                    </Button>
+                  </div>
                 </div>
+
                 <div>
                   <Label htmlFor="studentCourse">Course</Label>
-                  <Input
-                    id="studentCourse"
-                    type="text"
-                    placeholder="e.g., Computer Science"
-                    value={studentCourse}
-                    onChange={(e) => setStudentCourse(e.target.value)}
-                    className="mt-1"
-                  />
+                  <Select onValueChange={setStudentCourse} value={studentCourse}>
+                    <SelectTrigger className="w-full mt-1">
+                      <SelectValue placeholder="Select Course" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="B.Tech">B.Tech</SelectItem>
+                      <SelectItem value="M.Tech">M.Tech</SelectItem>
+                      <SelectItem value="PhD">PhD</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
+
                 <div>
                   <Label htmlFor="studentYear">Year</Label>
                   <Select onValueChange={setStudentYear} value={studentYear}>
@@ -216,35 +248,33 @@ export function LandingPage({ onLogin }: LandingPageProps) {
               </motion.div>
             )}
 
-            {/* ✅ Added: Professor Gmail input */}
+            {/* Professor Details */}
             {selectedRole === 'professor' && selectedInstitute && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="space-y-4 mb-8"
-              >
+              <motion.div className="space-y-4 mb-8">
                 <h3 className="text-xl text-center">Professor Details</h3>
                 <div>
                   <Label htmlFor="profGmail">Gmail</Label>
-                  <Input
-                    id="profGmail"
-                    type="email"
-                    placeholder="professor.email@example.com"
-                    value={profGmail}
-                    onChange={(e) => setProfGmail(e.target.value)}
-                    className="mt-1"
-                  />
+                  <div className="flex gap-2 mt-1">
+                    <Input
+                      id="profGmail"
+                      type="email"
+                      placeholder="Enter your Gmail"
+                      value={profGmail}
+                      onChange={(e) => setProfGmail(e.target.value)}
+                    />
+                    <Button
+                      variant="outline"
+                      onClick={() => setProfGmail('demo@gmail.com')}
+                    >
+                      Use Demo Gmail
+                    </Button>
+                  </div>
                 </div>
               </motion.div>
             )}
 
             {/* Continue Button */}
-            <motion.div
-              className="text-center"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: selectedInstitute ? 1 : 0.5 }}
-            >
+            <motion.div className="text-center" initial={{ opacity: 0 }} animate={{ opacity: selectedInstitute ? 1 : 0.5 }}>
               <Button
                 size="lg"
                 onClick={handleContinue}
@@ -257,7 +287,7 @@ export function LandingPage({ onLogin }: LandingPageProps) {
           </motion.div>
         )}
 
-        {/* Footer Info */}
+        {/* Footer */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

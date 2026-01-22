@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Play, 
-  BookOpen, 
-  Clock, 
-  User, 
-  MessageCircle, 
+
+import {
+  Play,
+  BookOpen,
+  Clock,
+  User,
+  MessageCircle,
   Lightbulb,
   ChevronDown,
   ChevronUp,
@@ -43,6 +44,8 @@ export function LectureContent({ content }: LectureContentProps) {
       return newSet;
     });
   };
+  
+  
 
   return (
     <div className="flex-1 overflow-y-auto bg-gray-50">
@@ -61,7 +64,6 @@ export function LectureContent({ content }: LectureContentProps) {
             </Badge>
           </div>
         </motion.div>
-
         {/* Definition Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -89,10 +91,22 @@ export function LectureContent({ content }: LectureContentProps) {
               <Play className="w-5 h-5 text-purple-600" />
               Lecture Recording
             </h3>
-            <div className="bg-gray-900 rounded-lg aspect-video flex items-center justify-center">
-              <Button variant="ghost" className="text-white hover:bg-white/20">
-                <PlayCircle className="w-12 h-12" />
-              </Button>
+
+            <div
+              className="bg-gray-900 rounded-lg overflow-hidden relative w-full"
+              style={{ paddingTop: '56.25%' }}
+            >
+              {content?.recordingUrl ? (
+                <video
+                  src={content.recordingUrl}
+                  controls
+                  className="absolute top-0 left-0 w-full h-full object-cover"
+                />
+              ) : (
+                <p className="text-white text-sm flex items-center justify-center absolute top-0 left-0 w-full h-full">
+                  No recording available.
+                </p>
+              )}
             </div>
           </Card>
 
@@ -137,25 +151,22 @@ export function LectureContent({ content }: LectureContentProps) {
                   transition={{ duration: 0.3 }}
                   className="space-y-4"
                 >
-                  
                   {content.content.map((section, idx) => (
                     <motion.div
                       key={section.id}
-                      
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: idx * 0.1 }}
-                      className={`p-5 rounded-lg border-l-4 ${
-                        section.type === 'concept'
-                          ? 'bg-purple-50 border-purple-500'
-                          : section.type === 'proof'
+                      className={`p-5 rounded-lg border-l-4 ${section.type === 'concept'
+                        ? 'bg-purple-50 border-purple-500'
+                        : section.type === 'proof'
                           ? 'bg-orange-50 border-orange-500'
                           : section.type === 'algorithm'
-                          ? 'bg-green-50 border-green-500'
-                          : section.type === 'example'
-                          ? 'bg-amber-50 border-amber-500'
-                          : 'bg-blue-50 border-blue-500'
-                      }`}
+                            ? 'bg-green-50 border-green-500'
+                            : section.type === 'example'
+                              ? 'bg-amber-50 border-amber-500'
+                              : 'bg-blue-50 border-blue-500'
+                        }`}
                     >
                       <div className="flex items-start justify-between mb-2">
                         <h3 className="text-lg">{section.title}</h3>
@@ -166,20 +177,62 @@ export function LectureContent({ content }: LectureContentProps) {
                           </Badge>
                         )}
                       </div>
-                      
+
                       {section.professorNote && (
                         <div className="mb-3 p-3 bg-white/60 rounded-lg border border-indigo-200">
                           <p className="text-sm text-indigo-700">
                             <User className="w-4 h-4 inline mr-2" />
-                            <span className="italic">Professor said: "{section.professorNote}"</span>
+                            <span className="italic">
+                              Professor said: "{section.professorNote}"
+                            </span>
                           </p>
                         </div>
                       )}
-                      
-                      <div className="text-gray-700 whitespace-pre-line leading-relaxed">
-                        {section.content}
+
+                      {/* Text and Animation Side-by-Side */}
+                      <div className="flex flex-col md:flex-row md:items-start md:gap-6">
+                        <div className="flex-1 text-gray-700 whitespace-pre-line leading-relaxed">
+                          {section.content}
+                        </div>
+
+                        {section.animation && (
+                          <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.3 }}
+                            className="mt-4 md:mt-0 md:w-1/2"
+                          >
+                            <Card className="overflow-hidden hover:shadow-lg p-4 transition-shadow cursor-pointer">
+                              <div className="relative aspect-video">
+                                <video
+                                  src={section.animation.thumbnail}
+                                  width="100%"
+                                  height="100%"
+                                  controls
+                                  autoPlay
+                                  loop
+                                  muted
+                                  playsInline
+                                />
+
+                                <Badge className="absolute top-2 right-2">
+                                  {section.animation.type}
+                                </Badge>
+                              </div>
+                              <div className="p-3 bg-white">
+                                <h4 className="text-sm font-semibold mb-1">
+                                  {section.animation.title}
+                                </h4>
+                                <p className="text-sm text-gray-600">
+                                  {section.animation.description}
+                                </p>
+                              </div>
+                            </Card>
+                          </motion.div>
+                        )}
                       </div>
-                      
+
+                      {/* Image (kept at bottom) */}
                       {section.image && (
                         <motion.div
                           initial={{ opacity: 0, y: 10 }}
@@ -190,7 +243,7 @@ export function LectureContent({ content }: LectureContentProps) {
                           <img
                             src={section.image}
                             alt={section.imageCaption || section.title}
-                            className="w-full rounded-lg shadow-md border-2 border-white"
+                            className="w-1/2 mx-auto rounded-lg shadow-md border-2 border-white"
                           />
                           {section.imageCaption && (
                             <p className="text-sm text-gray-600 mt-2 text-center italic">
@@ -199,41 +252,13 @@ export function LectureContent({ content }: LectureContentProps) {
                           )}
                         </motion.div>
                       )}
-                      
-                      {section.animation && (
-                        <motion.div
-                          initial={{ opacity: 0, scale: 0.95 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: 0.3 }}
-                          className="mt-4"
-                        >
-                          <Card className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer">
-                            <div className="relative">
-                              <img
-                                src={section.animation.thumbnail}
-                                alt={section.animation.title}
-                                className="w-full h-48 object-cover"
-                              />
-                              <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                                <PlayCircle className="w-16 h-16 text-white" />
-                              </div>
-                              <Badge className="absolute top-2 right-2">
-                                {section.animation.type}
-                              </Badge>
-                            </div>
-                            <div className="p-4 bg-white">
-                              <h4 className="text-sm font-semibold mb-1">{section.animation.title}</h4>
-                              <p className="text-sm text-gray-600">{section.animation.description}</p>
-                            </div>
-                          </Card>
-                        </motion.div>
-                      )}
-                      
+
                       {section.bookReference && (
                         <div className="mt-3 p-3 bg-white/60 rounded-lg border border-green-200">
                           <p className="text-sm text-green-700">
                             <BookOpen className="w-4 h-4 inline mr-2" />
-                            <span className="font-medium">Book Reference:</span> {section.bookReference}
+                            <span className="font-medium">Book Reference:</span>{' '}
+                            {section.bookReference}
                           </p>
                         </div>
                       )}
@@ -270,18 +295,24 @@ export function LectureContent({ content }: LectureContentProps) {
                       <User className="w-5 h-5 text-yellow-600 mt-1 shrink-0" />
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="text-sm text-gray-900">{doubt.student}</span>
+                          <span className="text-sm text-gray-900">
+                            {doubt.student}
+                          </span>
                           <Badge variant="outline" className="text-xs">
                             {doubt.timestamp}
                           </Badge>
                         </div>
-                        <p className="text-gray-800 italic">"{doubt.question}"</p>
+                        <p className="text-gray-800 italic">
+                          "{doubt.question}"
+                        </p>
                       </div>
                     </div>
                     <Separator className="my-3" />
                     <div className="pl-8">
                       <div className="bg-white rounded-lg p-4 border border-yellow-200">
-                        <p className="text-sm mb-1 text-blue-600">Professor's Answer:</p>
+                        <p className="text-sm mb-1 text-blue-600">
+                          Professor's Answer:
+                        </p>
                         <p className="text-gray-700">{doubt.answer}</p>
                       </div>
                     </div>
@@ -370,22 +401,26 @@ export function LectureContent({ content }: LectureContentProps) {
                     className="cursor-pointer"
                   >
                     <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-                      <div className="relative">
-                        <img
+                      <div className="relative aspect-video">
+                        <video
                           src={animation.thumbnail}
-                          alt={animation.title}
-                          className="w-full h-40 object-cover"
+                          width="100%"
+                          height="100%"
+                          controls
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
                         />
-                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                          <PlayCircle className="w-12 h-12 text-white" />
-                        </div>
                         <Badge className="absolute top-2 right-2">
                           {animation.type}
                         </Badge>
                       </div>
                       <div className="p-4">
                         <h3 className="mb-2">{animation.title}</h3>
-                        <p className="text-sm text-gray-600">{animation.description}</p>
+                        <p className="text-sm text-gray-600">
+                          {animation.description}
+                        </p>
                       </div>
                     </Card>
                   </motion.div>

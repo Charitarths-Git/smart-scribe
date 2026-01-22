@@ -1,22 +1,27 @@
-import { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Bot, User, Sparkles } from 'lucide-react';
-import { Button } from './ui/button';
-import { Textarea } from './ui/textarea';
-import { ScrollArea } from './ui/scroll-area';
-import { ChatMessage } from '../types';
+'use client';
 
-export function ChatPanel() {
+import { useState, useRef, useEffect } from 'react';
+import { Send, Bot, User, Sparkles, X, MessageCircle } from 'lucide-react';
+
+interface ChatMessage {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: Date;
+}
+
+export function ChatPanel({ lectureContent }: { lectureContent?: unknown }) {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: '1',
       role: 'assistant',
-      content: 'Hello! I\'m your AI learning assistant. Ask me anything about your lectures, concepts, or get help with problems!',
+      content: "Hello! I'm your AI learning assistant powered by Gemini. Ask me anything about your lectures, concepts, or get help with problems! I can also search the web for current information.",
       timestamp: new Date(),
     },
   ]);
-  const [input, setInput] = useState('');
+  const inputRef = useRef<HTMLTextAreaElement | null>(null);
   const [isTyping, setIsTyping] = useState(false);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -25,180 +30,218 @@ export function ChatPanel() {
     }
   }, [messages]);
 
-  const handleSend = () => {
-    if (!input.trim()) return;
+  const handleSend = async () => {
+    const currentValue = inputRef.current?.value ?? '';
+    if (!currentValue.trim() || isTyping) return;
 
     const userMessage: ChatMessage = {
       id: Date.now().toString(),
       role: 'user',
-      content: input,
+      content: currentValue,
       timestamp: new Date(),
     };
 
     setMessages((prev) => [...prev, userMessage]);
-    setInput('');
+    const currentInput = currentValue;
+    if (inputRef.current) inputRef.current.value = '';
     setIsTyping(true);
 
-    // Simulate AI response
-    setTimeout(() => {
-      const aiResponse = generateAIResponse(input);
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: currentInput,
+          lectureContent:
+            lectureContent == null
+              ? null
+              : typeof lectureContent === 'string'
+              ? lectureContent
+              : JSON.stringify(lectureContent),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to get response');
+      }
+
+      const data = await response.json();
+
       const assistantMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: aiResponse,
+        content: data.response,
         timestamp: new Date(),
       };
+
       setMessages((prev) => [...prev, assistantMessage]);
+    } catch (error) {
+      console.error('Error:', error);
+      const errorMessage: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant',
+        content: 'I apologize, but I encountered an error. Please make sure your API keys are configured correctly and try again.',
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
       setIsTyping(false);
-    }, 1500);
+    }
   };
 
-  const generateAIResponse = (query: string): string => {
-    const lowerQuery = query.toLowerCase();
-
-    if (lowerQuery.includes('z-transform') || lowerQuery.includes('ztransform')) {
-      return 'The Z-transform is a powerful mathematical tool for analyzing discrete-time signals. Key points:\n\n1. It converts time-domain signals to frequency domain\n2. The Region of Convergence (ROC) is crucial for uniqueness\n3. Common applications include filter design and system analysis\n\nWould you like me to explain any specific property or application?';
-    }
-
-    if (lowerQuery.includes('bst') || lowerQuery.includes('binary search tree')) {
-      return 'Binary Search Trees maintain the property: left subtree < node < right subtree. This enables O(log n) search in balanced trees.\n\nKey operations:\n• Search: Compare and traverse\n• Insert: Find position and add\n• Delete: Handle 3 cases (0, 1, or 2 children)\n\nBalancing (AVL, Red-Black) ensures optimal performance!';
-    }
-
-    if (lowerQuery.includes('neural network') || lowerQuery.includes('nn')) {
-      return 'Neural networks learn patterns through layers of connected neurons:\n\n• Input Layer: Receives features\n• Hidden Layers: Learn representations\n• Output Layer: Makes predictions\n\nKey concepts:\n- Activation functions (ReLU, sigmoid) add non-linearity\n- Backpropagation adjusts weights\n- Deep networks learn hierarchical features\n\nWhat specific aspect would you like to explore?';
-    }
-
-    if (lowerQuery.includes('help') || lowerQuery.includes('how')) {
-      return 'I can help you with:\n\n✓ Explaining concepts from your lectures\n✓ Solving problems step-by-step\n✓ Clarifying doubts and questions\n✓ Providing additional examples\n✓ Recommending study resources\n✓ Connecting ideas across courses\n\nJust ask away!';
-    }
-
-    return 'That\'s an interesting question! Based on your lectures, I can provide detailed explanations. Could you be more specific about which topic or concept you\'d like to explore? I have access to all your course materials including:\n\n• Digital Signal Processing\n• Data Structures & Algorithms\n• Machine Learning\n• Computer Networks\n\nFeel free to ask about any concept, example, or problem!';
-  };
-
-  return (
-    <div className="w-96 bg-white border-l border-gray-200 flex flex-col h-screen">
+  const ChatContent = () => (
+    <div className="flex flex-col h-full bg-white">
       {/* Header */}
-      <div className="p-4 border-b border-gray-200 bg-gradient-to-r from-purple-50 to-blue-50">
-        <h2 className="text-lg flex items-center gap-2">
-          <Sparkles className="w-5 h-5 text-purple-600" />
-          AI Assistant
-        </h2>
-        <p className="text-xs text-gray-600 mt-1">Ask questions, get instant help</p>
+      <div className="p-4 border-b border-gray-200 bg-gradient-to-r from-purple-50 to-blue-50 flex items-center justify-between">
+        <div>
+          <h2 className="text-lg flex items-center gap-2 font-semibold">
+            <Sparkles className="w-5 h-5 text-purple-600" />
+            AI Assistant
+          </h2>
+          <p className="text-xs text-gray-600 mt-1">Ask questions, get instant help</p>
+        </div>
+        {/* Close button for mobile */}
+        <button
+          onClick={() => setIsMobileOpen(false)}
+          className="lg:hidden p-2 hover:bg-gray-100 rounded-full transition-colors"
+        >
+          <X className="w-5 h-5 text-gray-600" />
+        </button>
       </div>
 
       {/* Messages */}
-      <ScrollArea className="flex-1 p-4" ref={scrollRef}>
-        <div className="space-y-4">
-          <AnimatePresence>
-            {messages.map((message) => (
-              <motion.div
-                key={message.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3 }}
-                className={`flex gap-3 ${
-                  message.role === 'user' ? 'flex-row-reverse' : 'flex-row'
+      <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-4">
+        {messages.map((message) => (
+          <div
+            key={message.id}
+            className={`flex gap-3 ${
+              message.role === 'user' ? 'flex-row-reverse' : 'flex-row'
+            } animate-in fade-in slide-in-from-bottom-2 duration-300`}
+          >
+            <div
+              className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
+                message.role === 'user'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-purple-100 text-purple-600'
+              }`}
+            >
+              {message.role === 'user' ? (
+                <User className="w-4 h-4" />
+              ) : (
+                <Bot className="w-4 h-4" />
+              )}
+            </div>
+            <div
+              className={`flex-1 rounded-lg p-3 ${
+                message.role === 'user'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-100 text-gray-800'
+              }`}
+            >
+              <p className="text-sm whitespace-pre-line leading-relaxed">{message.content}</p>
+              <p
+                className={`text-xs mt-2 ${
+                  message.role === 'user' ? 'text-blue-100' : 'text-gray-500'
                 }`}
               >
-                <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
-                    message.role === 'user'
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-purple-100 text-purple-600'
-                  }`}
-                >
-                  {message.role === 'user' ? (
-                    <User className="w-4 h-4" />
-                  ) : (
-                    <Bot className="w-4 h-4" />
-                  )}
-                </div>
-                <div
-                  className={`flex-1 rounded-lg p-3 ${
-                    message.role === 'user'
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-100 text-gray-800'
-                  }`}
-                >
-                  <p className="text-sm whitespace-pre-line leading-relaxed">
-                    {message.content}
-                  </p>
-                  <p
-                    className={`text-xs mt-2 ${
-                      message.role === 'user' ? 'text-blue-100' : 'text-gray-500'
-                    }`}
-                  >
-                    {message.timestamp.toLocaleTimeString('en-US', {
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
+                {message.timestamp.toLocaleTimeString('en-US', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
+              </p>
+            </div>
+          </div>
+        ))}
 
-          {isTyping && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="flex gap-3"
-            >
-              <div className="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center shrink-0">
-                <Bot className="w-4 h-4" />
+        {isTyping && (
+          <div className="flex gap-3 animate-in fade-in duration-300">
+            <div className="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center shrink-0">
+              <Bot className="w-4 h-4" />
+            </div>
+            <div className="bg-gray-100 rounded-lg p-3">
+              <div className="flex gap-1">
+                <div
+                  className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                  style={{ animationDelay: '0ms' }}
+                />
+                <div
+                  className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                  style={{ animationDelay: '150ms' }}
+                />
+                <div
+                  className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                  style={{ animationDelay: '300ms' }}
+                />
               </div>
-              <div className="bg-gray-100 rounded-lg p-3">
-                <div className="flex gap-1">
-                  <motion.div
-                    animate={{ scale: [1, 1.2, 1] }}
-                    transition={{ repeat: Infinity, duration: 0.8, delay: 0 }}
-                    className="w-2 h-2 bg-gray-400 rounded-full"
-                  />
-                  <motion.div
-                    animate={{ scale: [1, 1.2, 1] }}
-                    transition={{ repeat: Infinity, duration: 0.8, delay: 0.2 }}
-                    className="w-2 h-2 bg-gray-400 rounded-full"
-                  />
-                  <motion.div
-                    animate={{ scale: [1, 1.2, 1] }}
-                    transition={{ repeat: Infinity, duration: 0.8, delay: 0.4 }}
-                    className="w-2 h-2 bg-gray-400 rounded-full"
-                  />
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </div>
-      </ScrollArea>
+            </div>
+          </div>
+        )}
+      </div>
 
       {/* Input */}
       <div className="p-4 border-t border-gray-200 bg-gray-50">
         <div className="flex gap-2">
-          <Textarea
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
+          <textarea
+            ref={inputRef}
             onKeyDown={(e) => {
+              e.stopPropagation();
               if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 handleSend();
               }
             }}
             placeholder="Ask a question..."
-            className="resize-none"
+            className="flex-1 resize-none border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
             rows={2}
           />
-          <Button
+          <button
             onClick={handleSend}
-            disabled={!input.trim() || isTyping}
-            size="icon"
-            className="shrink-0 h-auto"
+            type="button"
+            disabled={isTyping}
+            className="shrink-0 bg-purple-600 text-white rounded-lg px-4 hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             <Send className="w-4 h-4" />
-          </Button>
+          </button>
         </div>
-        <p className="text-xs text-gray-500 mt-2">Press Enter to send, Shift+Enter for new line</p>
+        <p className="text-xs text-gray-500 mt-2">
+          Press Enter to send, Shift+Enter for new line
+        </p>
       </div>
     </div>
+  );
+
+  return (
+    <>
+      {/* Desktop View - Always visible sidebar */}
+      <div className="hidden lg:block w-96 h-full border-l border-gray-200">
+        <ChatContent />
+      </div>
+
+      {/* Mobile/Tablet Floating Button */}
+      <button
+        onClick={() => setIsMobileOpen(true)}
+        className="lg:hidden fixed bottom-20 left-4 z-40 bg-purple-600 text-white rounded-full p-4 shadow-lg hover:bg-purple-700 transition-colors"
+      >
+        <MessageCircle className="w-6 h-6" />
+      </button>
+
+      {/* Mobile/Tablet Slide-in Panel */}
+      {isMobileOpen && (
+        <>
+          {/* Backdrop */}
+          <div
+            onClick={() => setIsMobileOpen(false)}
+            className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40 animate-in fade-in duration-200"
+          />
+
+          {/* Panel */}
+          <div className="lg:hidden fixed inset-y-0 right-0 w-full sm:w-96 z-50 shadow-2xl animate-in slide-in-from-right duration-300">
+            <ChatContent />
+          </div>
+        </>
+      )}
+    </>
   );
 }

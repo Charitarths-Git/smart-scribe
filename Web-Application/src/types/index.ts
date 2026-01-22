@@ -9,6 +9,34 @@ export interface Course {
   code: string;
   name: string;
   professor: string;
+  courseName?: string;
+  courseCode?: string;
+  semester?: string;
+  academicYear?: string;
+  materials?: MaterialSet;
+}
+
+export interface GeneratedContent {
+  lectureNumber: string;
+  date: string;
+  audioFile: string;
+  videoFile: string;
+}
+
+export interface MaterialSet {
+  slides: Array<{ name: string; lectureNumber: string; date: string; url?: string }>;
+  audio: string | null;
+  video: string | null;
+  generatedContent: GeneratedContent[];
+}
+
+export interface ProfessorDoubt {
+  id: string;
+  courseId: string;
+  studentName: string;
+  question: string;
+  date: string;
+  reply?: string | null;
 }
 
 export interface Lecture {
@@ -73,4 +101,22 @@ export interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;
   timestamp: Date;
+}
+
+export interface LectureProcessing {
+  id: string
+  lectureId: string
+  status: 'uploading' | 'processing' | 'generating' | 'completed'
+  audioFile?: string
+  videoFile?: string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface Slide {
+  id: string
+  lectureId: string
+  fileName: string
+  filePath: string
+  uploadDate: string
 }
