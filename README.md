@@ -9,7 +9,9 @@
 </p>
 
 <p align="center">
-  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbHh2M2M3a2d3aWtycGc2eGZqZmE2c2F1M3l6am9zcmV0czR2NG5xayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oKIPwoeGErMmaI43S/giphy.gif" alt="Smart Scribes Animated Banner" width="720" />
+  <video src="project-demo.mp4" width="720" autoplay loop muted playsinline>
+    Your browser does not support the video tag. Here is a <a href="project-demo.mp4">link to the video</a> instead.
+  </video>
 </p>
 
 An AI-powered platform that enhances lectures with multimodal processing, intelligent summarization, Q&A generation, and interactive dashboards.
