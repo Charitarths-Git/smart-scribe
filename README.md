@@ -9,8 +9,8 @@
 </p>
 
 <p align="center">
-  <video src="project-demo.mp4" width="720" autoplay loop muted playsinline>
-    Your browser does not support the video tag. Here is a <a href="project-demo.mp4">link to the video</a> instead.
+  <video src="https://storage.googleapis.com/smartscribe_input/courses/ic-112/lectures/-1-1761663067632/Animations/demomomomom.mp4" width="720" autoplay loop muted playsinline>
+    Your browser does not support the video tag. Here is a <a href="https://storage.googleapis.com/smartscribe_input/courses/ic-112/lectures/-1-1761663067632/Animations/demomomomom.mp4">link to the video</a> instead.
   </video>
 </p>
 
