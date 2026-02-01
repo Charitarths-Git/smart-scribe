@@ -236,10 +236,12 @@ pip install -r requirements.txt
 
 ## 📚 Documentation
 
-- **Docs Hub**: `https://drive.google.com/file/d/1QU8vdC-f3JLUmVnEqb8MRGlvGCneVFrA/view`
-- **Video Guide**: `https://youtu.be/G7zEb9On5KI?si=vq9e8IUx18uWCsqy`
-- **Installation Guide**: `https://docs.smart-scribes.mock/install`
-- **API Reference**: `https://docs.cloud.google.com/apis/docs/overview`,`https://supabase.com/docs/guides/api`
+- **📘 Docs Hub:** [View Documentation](https://drive.google.com/file/d/1QU8vdC-f3JLUmVnEqb8MRGlvGCneVFrA/view)
+- **🎥 Video Guide:** [Watch on YouTube](https://youtu.be/G7zEb9On5KI?si=vq9e8IUx18uWCsqy)
+- **🧰 Installation Guide:** [Open Google Doc](https://docs.google.com/document/d/12SVAEacqcgggpBd9ZEuPtTzkk854s6yFGcVeqSDfwHc/edit?usp=drive_link)
+- **🧠 API Reference:**  
+  - [Google Cloud API Docs](https://docs.cloud.google.com/apis/docs/overview)  
+  - [Supabase API Docs](https://supabase.com/docs/guides/api)
 
 ## 🔮 Roadmap
 
