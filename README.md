@@ -18,7 +18,11 @@ An AI-powered platform that enhances lectures with multimodal processing, intell
 
 <div align="center">
 
-[View Demo ▶️](https://youtu.be/mock_smart_scribes_demo) · [Slides 📋](https://drive.google.com/file/d/mock_presentation/view) · [Docs 📖](https://docs.smart-scribes.mock) · [Install Guide 🛠️](https://docs.smart-scribes.mock/install)
+[View Demo ▶️](https://youtu.be/G7zEb9On5KI?si=vq9e8IUx18uWCsqy) · 
+[Slides 📋](https://drive.google.com/file/d/1ddnYoN5SRydPX6gg-2T6K_LbyNhOXlyg/view?usp=drive_link) · 
+[Docs 📖](https://drive.google.com/file/d/1QU8vdC-f3JLUmVnEqb8MRGlvGCneVFrA/view) · 
+[Install Guide 🛠️](https://docs.google.com/document/d/12SVAEacqcgggpBd9ZEuPtTzkk854s6yFGcVeqSDfwHc/edit?usp=drive_link)
+
 
 </div>
 
@@ -239,9 +243,11 @@ pip install -r requirements.txt
 - **📘 Docs Hub:** [View Documentation](https://drive.google.com/file/d/1QU8vdC-f3JLUmVnEqb8MRGlvGCneVFrA/view)
 - **🎥 Video Guide:** [Watch on YouTube](https://youtu.be/G7zEb9On5KI?si=vq9e8IUx18uWCsqy)
 - **🧰 Installation Guide:** [Open Google Doc](https://docs.google.com/document/d/12SVAEacqcgggpBd9ZEuPtTzkk854s6yFGcVeqSDfwHc/edit?usp=drive_link)
+- **📊 Project Overview (PPT):** [View Presentation](https://drive.google.com/file/d/1ddnYoN5SRydPX6gg-2T6K_LbyNhOXlyg/view?usp=drive_link)
 - **🧠 API Reference:**  
   - [Google Cloud API Docs](https://docs.cloud.google.com/apis/docs/overview)  
   - [Supabase API Docs](https://supabase.com/docs/guides/api)
+
 
 ## 🔮 Roadmap
 
