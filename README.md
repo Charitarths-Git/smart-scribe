@@ -9,10 +9,9 @@
 </p>
 
 <p align="center">
-  <video src="https://storage.googleapis.com/smartscribe_input/courses/ic-112/lectures/-1-1761663067632/Animations/demomomomom.mp4" width="720" autoplay loop muted playsinline>
-    Your browser does not support the video tag. Here is a <a href="https://storage.googleapis.com/smartscribe_input/courses/ic-112/lectures/-1-1761663067632/Animations/demomomomom.mp4">link to the video</a> instead.
-  </video>
+  <img src="https://storage.googleapis.com/smartscribe_input/courses/ic-112/lectures/-1-1761663067632/Animations/demomomom.gif" width="720" alt="Demo Animation">
 </p>
+
 
 An AI-powered platform that enhances lectures with multimodal processing, intelligent summarization, Q&A generation, and interactive dashboards.
 
