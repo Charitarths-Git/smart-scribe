@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <img src="https://storage.googleapis.com/smartscribe_input/courses/ic-112/lectures/-1-1761663067632/Animations/pokemon.gif" width="720" alt="Demo Animation">
+  <img src="https://storage.googleapis.com/smartscribe_input/courses/ic-112/lectures/-1-1761663067632/Animations/demomomom.gif" width="720" alt="Demo Animation">
 </p>
 
 
