@@ -65,19 +65,16 @@ Smart Scribes transforms traditional lectures into dynamic, searchable, and inte
 
 <div align="center">
 
-[![Watch the Demo](https://img.youtube.com/vi/mock_smart_scribes_demo/0.jpg)](https://youtu.be/mock_smart_scribes_demo)
+<img src="https://storage.googleapis.com/smartscribe_input/courses/ep-609/lectures/1/Animations/gyro.gif" width="280" alt="Gyro Animation" />
+<img src="https://storage.googleapis.com/smartscribe_input/courses/ep-609/lectures/1/Animations/physics4.gif" width="280" alt="Physics Animation" />
+<img src="https://storage.googleapis.com/smartscribe_input/courses/ep-609/lectures/1/Animations/lasso7%20(1).gif" width="280" alt="Lasso Animation" />
 
 </div>
 
-<p align="center">
-  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaGVyZXNsaWRlZ2lm/13HgwGsXF0aiGY/giphy.gif" alt="Example Animation 1" width="280" />
-  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGFicy8x/26BRuo6sLetdllPAQ/giphy.gif" alt="Example Animation 2" width="280" />
-  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHJhbnNpdGlvbnMv/3oEduO9GZcY0S0bGDu/giphy.gif" alt="Example Animation 3" width="280" />
-</p>
-
-> Replace the mock demo URL and GIFs with your actual YouTube/video assets. You can also link to generated animations in `Python_Codes/smart_scribes_animations/`.
+> Replace the mock demo URL with your actual YouTube/video assets. You can also link to generated animations in `Python_Codes/smart_scribes_animations/`.
 
 <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" alt="divider" />
+
 
 ## 🎯 Features
 
@@ -251,8 +248,8 @@ pip install -r requirements.txt
 
 ## 🔮 Roadmap
 
-- [x] Next.js web application foundation
-- [x] Component library & dashboards
+- [ ] Next.js web application foundation
+- [ ] Component library & dashboards
 - [ ] Multimodal pipeline integration (Python → Web)
 - [ ] Summarization + Q&A at scale
 - [ ] Slides pipeline UX + progress tracking
