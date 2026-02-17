@@ -16,6 +16,7 @@ import os
 from create_json import *
 from lastjson import *
 from cleaning import *
+from UploadTOFrontend import *
 
 
 local_dir_audio = "audio_full" 
@@ -43,7 +44,7 @@ def run_pipeline(task):
     video_extractor = VideoTextExtractor()
     audio_vectorizer = AudioVectorizer()
             
-    print(f"✅ All models loaded successfully. Using device: {device}")
+    print(f"All models loaded successfully. Using device: {device}")
 
         # --- 5. Pre-process Audio & Video ---
     print("\nPre-processing audio...")
@@ -174,8 +175,11 @@ def run_pipeline(task):
 
     update_json_and_upload_video(BUCKET_NAME,task[0],task[1])
     create_json_and_upload_images(BUCKET_NAME,task[0],task[1])
-
-    
+    add_overall_url()
+    add_overall_id(task[0],task[1])
+    rename_json_file() 
+    convert_dict_json_to_array_json()
+    run_code()
 
 def rum_main():
     tasks = get_course_lectures(BUCKET_NAME, max_files=2)
@@ -183,3 +187,5 @@ def rum_main():
         run_pipeline(task)
 
 rum_main()
+convert_dict_json_to_array_json()
+run_code()

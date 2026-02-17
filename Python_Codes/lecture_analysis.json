@@ -1,0 +1,20 @@
+{
+  "analysis_summary": {
+    "total_topics": 2,
+    "topics_needing_animation": 2
+  },
+  "animations_to_create": [
+    {
+      "title": "Gratitude",
+      "topic": "Gratitude",
+      "duration_estimate": "60 seconds",
+      "priority": "high"
+    },
+    {
+      "title": "Concluding Remarks",
+      "topic": "Concluding Remarks",
+      "duration_estimate": "60 seconds",
+      "priority": "high"
+    }
+  ]
+}

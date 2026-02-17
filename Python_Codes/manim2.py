@@ -206,6 +206,7 @@ Provide specific details like:
 - Timing for each element
 - Text content for labels
 - Spatial positioning
+-limit output chars to 8000
 
 Return detailed step-by-step description, be very specific!"""
 
@@ -319,7 +320,7 @@ Return ONLY complete Python code. No markdown. No explanations. Just code."""
         Use Gemini to analyze Manim code and suggest corrections.
         
         Gemini will:
-        - Act as a Manim expert.
+        - Act as a Manim and python expert.
         - Analyze the code for errors, missing constructs, and style issues.
         - Avoid MathTex/Tex.
         - Check for overlapping or abrupt animations.
@@ -339,7 +340,7 @@ Return ONLY complete Python code. No markdown. No explanations. Just code."""
 
         # LLM prompt for analysis
         prompt = f"""
-        You are an expert Manim animation developer.
+        You are an expert Manim animation and python developer.
         A user has provided the following Manim script, which may be broken or incomplete.
 
         Your task is to analyze this code and provide a clear, concise list

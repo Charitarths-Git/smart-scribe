@@ -1,0 +1,18 @@
+[
+  {
+    "index": 1,
+    "title": "Gratitude",
+    "success": true,
+    "video": "smart_scribes_animations\\anim_01_gratitude.mp4",
+    "code": "smart_scribes_animations\\anim_01_gratitude.py",
+    "duration": "60 seconds"
+  },
+  {
+    "index": 2,
+    "title": "Concluding Remarks",
+    "success": true,
+    "video": "smart_scribes_animations\\anim_02_concluding_remarks.mp4",
+    "code": "smart_scribes_animations\\anim_02_concluding_remarks.py",
+    "duration": "60 seconds"
+  }
+]
