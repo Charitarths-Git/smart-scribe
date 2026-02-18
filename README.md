@@ -18,7 +18,7 @@ An AI-powered platform that enhances lectures with multimodal processing, intell
 
 <div align="center">
 
-[View Demo ▶️](https://youtu.be/G7zEb9On5KI?si=vq9e8IUx18uWCsqy) · 
+[View Demo ▶️](https://youtu.be/DzG_FQJkbAA?si=_FozVdJELSWYFovM) · 
 [Slides 📋](https://drive.google.com/file/d/1ddnYoN5SRydPX6gg-2T6K_LbyNhOXlyg/view?usp=drive_link) · 
 [Docs 📖](https://drive.google.com/file/d/1QU8vdC-f3JLUmVnEqb8MRGlvGCneVFrA/view) · 
 [Install Guide 🛠️](https://docs.google.com/document/d/12SVAEacqcgggpBd9ZEuPtTzkk854s6yFGcVeqSDfwHc/edit?usp=drive_link)
@@ -49,10 +49,15 @@ Smart Scribes transforms traditional lectures into dynamic, searchable, and inte
 
 ## 🔗 Quick Links
 
-- **YouTube Demo**: `https://youtu.be/mock_smart_scribes_demo`
-- **Presentation (PPT/PDF)**: `https://drive.google.com/file/d/mock_presentation/view`
-- **Documentation Hub**: `https://docs.smart-scribes.mock`
-- **Installation Guide**: `https://docs.smart-scribes.mock/install`
+- **YouTube Demo**: [Watch Demo](https://youtu.be/DzG_FQJkbAA?si=_FozVdJELSWYFovM)  
+- **Presentation (PPT/PDF)**: [View Presentation](https://drive.google.com/file/d/mock_presentation/view)  
+- **Documentation Hub**: [Smart Scribes Docs](https://docs.smart-scribes.mock)  
+- **Installation Guide**: [Installation Instructions](https://docs.smart-scribes.mock/install)  
+
+- **🧠 API Reference:**  
+  - [Google Cloud API Docs](https://docs.cloud.google.com/apis/docs/overview)  
+  - [Supabase API Docs](https://supabase.com/docs/guides/api)
+
 
 <details>
   <summary><b>What is Smart Scribes? (click to expand)</b></summary>
@@ -61,7 +66,7 @@ Smart Scribes transforms traditional lectures into dynamic, searchable, and inte
 
 </details>
 
-## 🎬 Demo & Example Animations
+## 🎬 Example Animations genrated by our AI agents
 
 <div align="center">
 
