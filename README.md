@@ -243,7 +243,7 @@ pip install -r requirements.txt
 ## 📚 Documentation
 
 - **📘 Docs Hub:** [View Documentation](https://drive.google.com/file/d/1QU8vdC-f3JLUmVnEqb8MRGlvGCneVFrA/view)
-- **🎥 Video Guide:** [Watch on YouTube]([https://youtu.be/G7zEb9On5KI?si=vq9e8IUx18uWCsqy](https://youtu.be/DzG_FQJkbAA?si=_FozVdJELSWYFovM))
+- **🎥 Video Guide:** [Watch on YouTube](https://youtu.be/DzG_FQJkbAA?si=_FozVdJELSWYFovM)
 - **🧰 Installation Guide:** [Open Google Doc](https://drive.google.com/file/d/1ddnYoN5SRydPX6gg-2T6K_LbyNhOXlyg/view)
 - **📊 Project Overview (PPT):** [View Presentation](https://drive.google.com/file/d/1ddnYoN5SRydPX6gg-2T6K_LbyNhOXlyg/view?usp=drive_link)
 - **🧠 API Reference:**  
