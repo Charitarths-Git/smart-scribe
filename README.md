@@ -50,7 +50,7 @@ Smart Scribes transforms traditional lectures into dynamic, searchable, and inte
 ## 🔗 Quick Links
 
 - **YouTube Demo**: [Watch Demo](https://youtu.be/DzG_FQJkbAA?si=_FozVdJELSWYFovM)  
-- **Presentation (PPT/PDF)**: [View Presentation](https://drive.google.com/file/d/mock_presentation/view)  
+- **Presentation (PPT/PDF)**: [View Presentation](https://drive.google.com/file/d/1ddnYoN5SRydPX6gg-2T6K_LbyNhOXlyg/view?usp=drive_link)  
 - **Documentation Hub**: [Smart Scribes Docs](https://drive.google.com/file/d/1QU8vdC-f3JLUmVnEqb8MRGlvGCneVFrA/view)  
 - **Installation Guide**: [Installation Instructions](https://docs.google.com/document/d/12SVAEacqcgggpBd9ZEuPtTzkk854s6yFGcVeqSDfwHc/edit?usp=drive_link)  
 
