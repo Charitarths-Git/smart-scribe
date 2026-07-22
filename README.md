@@ -27,6 +27,9 @@ An AI-powered platform that enhances lectures with multimodal processing, intell
 </div>
 
 <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/water.png" alt="divider" />
+<img src="./arch.png" alt="Smart Scribes Architecture" width="100%" />
+
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/water.png" alt="divider" />
 
 ## 🧭 Table of Contents
 
