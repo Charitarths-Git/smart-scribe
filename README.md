@@ -1,7 +1,5 @@
 # Smart Scribes
 
-**Author:** [Charitarths-Git](https://github.com/Charitarths-Git) (`charitarthsingh130git@gmail.com`)
-
 <p align="center">
   <img src="https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=nextdotjs" alt="Next.js" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
@@ -10,279 +8,337 @@
   <img src="https://img.shields.io/badge/Supabase-Auth%20%26%20Storage-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase" />
 </p>
 
-<p align="center">
-  <img src="https://storage.googleapis.com/smartscribe_input/courses/ic-112/lectures/-1-1761663067632/Animations/demomomom.gif" width="720" alt="Demo Animation">
-</p>
-
-
-
 An AI-powered platform that enhances lectures with multimodal processing, intelligent summarization, Q&A generation, and interactive dashboards.
 
-<div align="center">
-
-</div>
-
 <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/water.png" alt="divider" />
+
 <img src="./arch.png" alt="Smart Scribes Architecture" width="100%" />
 
 <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/water.png" alt="divider" />
 
-## 🧭 Table of Contents
-
-- **Overview**
-- **Quick Links**
-- **Demo & Animations**
-- **Features**
-- **Architecture**
-- **Folder Structure**
-- **Installation**
-- **Development**
-- **Documentation**
-- **Roadmap**
-- **Contributing**
-- **License**
-
 ## 🚀 Overview
 
-Smart Scribes transforms traditional lectures into dynamic, searchable, and interactive experiences by fusing video, audio, and document understanding with a modern web application.
+Smart Scribes transforms traditional lectures into dynamic, searchable, and interactive learning experiences by combining video, audio, and document understanding with a modern web application.
 
-## 🔗 Quick Links
+### Key Objectives
 
-- **YouTube Demo**: [Watch Demo](https://youtu.be/DzG_FQJkbAA?si=_FozVdJELSWYFovM)  
-- **Presentation (PPT/PDF)**: [View Presentation](https://drive.google.com/file/d/1ddnYoN5SRydPX6gg-2T6K_LbyNhOXlyg/view?usp=drive_link)  
-- **Documentation Hub**: [Smart Scribes Docs](https://drive.google.com/file/d/1QU8vdC-f3JLUmVnEqb8MRGlvGCneVFrA/view)  
-- **Installation Guide**: [Installation Instructions](https://docs.google.com/document/d/12SVAEacqcgggpBd9ZEuPtTzkk854s6yFGcVeqSDfwHc/edit?usp=drive_link)  
-
-- **🧠 API Reference:**  
-  - [Google Cloud API Docs](https://docs.cloud.google.com/apis/docs/overview)  
-  - [Supabase API Docs](https://supabase.com/docs/guides/api)
-
-
-<details>
-  <summary><b>What is Smart Scribes? (click to expand)</b></summary>
-
-  Smart Scribes is a multimodal learning assistant. It analyzes lecture videos, audio, and slides to produce summaries, Q&A, and interactive study aides, delivered through a polished Next.js app.
-
-</details>
-
-## 🎬 Example Animations genrated by our AI agents
-
-<div align="center">
-
-<img src="https://storage.googleapis.com/smartscribe_input/courses/ep-609/lectures/1/Animations/gyro.gif" width="280" alt="Gyro Animation" />
-<img src="https://storage.googleapis.com/smartscribe_input/courses/ep-609/lectures/1/Animations/physics4.gif" width="280" alt="Physics Animation" />
-<img src="https://storage.googleapis.com/smartscribe_input/courses/ep-609/lectures/1/Animations/lasso7%20(1).gif" width="280" alt="Lasso Animation" />
-
-</div>
-
-> Replace the mock demo URL with your actual YouTube/video assets. You can also link to generated animations in `Python_Codes/smart_scribes_animations/`.
-
-<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" alt="divider" />
-
+- Convert lectures into structured learning resources
+- Generate intelligent summaries and study material
+- Produce lecture-based Q&A automatically
+- Enable multimodal search across learning content
+- Improve accessibility and engagement for students
 
 ## 🎯 Features
 
-- **Multimodal Understanding**: Fuse video, audio, and PDFs for rich insights
-- **Lecture Summarization**: Generate concise overviews and key points
-- **Q&A Generation**: Create questions and answers from lecture content
-- **Slides Management**: Upload and manage slides with processing status
-- **Student & Professor Dashboards**: Tailored workflows and tools
-- **Planning Mode**: Structured learning plans per lecture/topic
+### 📚 Lecture Summarization
+Generate concise summaries, key takeaways, and structured notes from lecture content.
 
-## 🏗️ Architecture (High Level)
+### ❓ Automated Q&A Generation
+Create relevant questions and answers from videos, audio, and lecture documents.
 
-- **Frontend**: Next.js (App Router) + TypeScript + Tailwind + shadcn/ui
-- **APIs**: Next.js Route Handlers under `Web-Application/app/api/*`
-- **Storage/DB**: Supabase (auth, storage) — see `Web-Application/lib/supabase.ts`
-- **Python Pipelines**: Multimodal embeddings, frames/audio extraction, PDF matching
+### 🎥 Multimodal Understanding
+Combine information from:
+- Lecture videos
+- Audio recordings
+- PDFs and lecture slides
 
-<details>
-  <summary><b>Architecture Diagram (placeholder)</b></summary>
+### 👨‍🎓 Student Dashboard
+- Access lecture summaries
+- Review generated questions
+- Organize learning material
 
-  <p align="center">
-    <img src="https://via.placeholder.com/900x420?text=Smart+Scribes+Architecture" alt="Architecture Diagram" />
-  </p>
+### 👨‍🏫 Professor Dashboard
+- Upload lectures and slides
+- Manage course content
+- Monitor processing status
 
-</details>
+### 🗂️ Slides Management
+Upload, organize, and process lecture slides with progress tracking.
 
-## 📁 Folder Structure (Updated)
+### 📝 Planning Mode
+Generate structured learning plans and study schedules for individual topics and lectures.
 
-```
+---
+
+## 🏗️ Architecture
+
+### Frontend
+- Next.js 14
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- Radix UI
+
+### Backend
+- Next.js API Routes
+- Python Processing Pipelines
+
+### Database & Storage
+- Supabase Authentication
+- Supabase Storage
+- Supabase Database
+
+### AI Pipeline
+- Audio Processing
+- Video Frame Extraction
+- Embedding Generation
+- PDF Understanding
+- Multimodal Retrieval
+- Summarization & Q&A Generation
+
+---
+
+## 📁 Folder Structure
+
+```text
 Smart-Scribes/
 ├── Model Training NoteBooks/
 │   └── train1.ipynb
+│
 ├── Python_Codes/
-│   ├── all_data.txt
-│   ├── audio_embeddings.npy
-│   ├── audio_embeddings.py
-│   ├── audio_full/
-│   │   └── audio.mp3
-│   ├── book/
-│   │   └── LectureCh10.pdf
-│   ├── book_embeddings/
-│   │   ├── static_verb_list_embeddings.npy
-│   │   └── Stative_Verbs_List_embeddings.npy
-│   ├── cleaning.py
-│   ├── create_json.py
-│   ├── frames_embeddings.py
-│   ├── frames_temp/
-│   │   ├── frame_00001.png ...
-│   ├── fused_final.npy
-│   ├── google_storage_code.py
-│   ├── lastjson.py
-│   ├── manim2.py
 │   ├── MultiModal/
-│   │   ├── __init__.py
-│   │   ├── generate.py
-│   │   ├── lecture_to_bookmatch.py
-│   │   └── pdf_embedding.py
-│   ├── output/
-│   │   └── LectureCh10_embeddings.npy
-│   ├── pipeline_functions.py
-│   ├── pipeline.py
 │   ├── smart_scribes_animations/
-│   │   ├── anim_01_acknowledgement.mp4
-│   │   ├── anim_02_concluding_remarks.mp4
-│   │   └── anim_03_expressing_gratitude.mp4
-│   ├── test.py
-│   ├── UploadTOFrontend.py
-│   ├── video_embeddings.npy
-│   └── video_full/
-│       └── video.mp4
+│   ├── audio_embeddings.py
+│   ├── frames_embeddings.py
+│   ├── pipeline.py
+│   ├── pipeline_functions.py
+│   └── ...
+│
 ├── Web-Application/
 │   ├── app/
 │   │   ├── api/
-│   │   │   ├── chat/route.ts
-│   │   │   ├── qna/
-│   │   │   │   ├── generate/route.ts
-│   │   │   │   └── topics/route.ts
-│   │   │   └── upload/
-│   │   │       ├── init/route.ts
-│   │   │       ├── route.ts
-│   │   │       └── slides/... (Next.js route)
 │   │   ├── layout.tsx
 │   │   └── page.tsx
+│   │
 │   ├── src/
-│   │   ├── components/ (UI + features)
+│   │   ├── components/
 │   │   ├── data/
-│   │   ├── guidelines/
 │   │   ├── lib/
 │   │   ├── styles/
 │   │   └── types/
+│   │
 │   ├── package.json
 │   └── next.config.js
+│
 ├── requirements.txt
 └── README.md
 ```
 
-> The structure above reflects the current repository, including Python multimodal pipelines and the Next.js app with API routes.
+---
 
 ## 🧪 Tech Stack
 
-- **Frontend**: Next.js 14, TypeScript, Tailwind CSS, shadcn/ui, Radix Primitives
-- **Animations**: Framer Motion (UI), GIF/MP4 assets in README
-- **Backend/AI**: Python 3.10+, NumPy + custom pipelines (embeddings, frames/audio extraction)
-- **Infra**: Supabase (auth/storage), Vercel (recommended) or Node hosting
+### Frontend
+- Next.js 14
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- Radix UI
+
+### Backend
+- Python 3.10+
+- NumPy
+- Custom AI Pipelines
+
+### Database & Infrastructure
+- Supabase
+- Vercel
+
+### Development Tools
+- Git
+- npm
+- Node.js
+
+---
 
 ## 🛠️ Installation
 
 ### Prerequisites
+
 - Node.js 18+
-- npm (or pnpm/yarn)
+- npm / pnpm / yarn
 - Python 3.10+
 - Git
 
-### Clone
+### Clone Repository
+
 ```bash
-git clone https://github.com/Charitarths-Git/smart-scribe.git
-cd smart-scribe
+git clone <repository-url>
+cd <repository-name>
 ```
 
-### Web Application
+### Setup Web Application
+
 ```bash
 cd Web-Application
+
 npm install
+
 npm run dev
-# http://localhost:3000
 ```
 
-### Python Environment
+Application will be available at:
+
+```text
+http://localhost:3000
+```
+
+### Setup Python Environment
+
 ```bash
 python -m venv venv
-# Windows PowerShell
-venv\Scripts\Activate.ps1
-# macOS/Linux
-# source venv/bin/activate
+```
+
+#### Windows
+
+```bash
+venv\Scripts\activate
+```
+
+#### Linux / macOS
+
+```bash
+source venv/bin/activate
+```
+
+Install dependencies:
+
+```bash
 pip install -r requirements.txt
 ```
 
-<details>
-  <summary><b>Optional: Sample data & embeddings</b></summary>
-
-  Place your lecture video under `Python_Codes/video_full/video.mp4` and slides/PDFs under `Python_Codes/book/`. Use the scripts in `Python_Codes/` to generate embeddings and frames.
-
-</details>
+---
 
 ## 🧰 Development
 
-### Available Scripts (Web)
+### Available Commands
 
-- `npm run dev` — Start development server
-- `npm run build` — Build for production
-- `npm run start` — Start production server
-- `npm run lint` — Run ESLint
+#### Frontend
 
-### API Routes (Web-Application/app/api)
+```bash
+npm run dev
+```
+Start development server.
 
-- `chat/route.ts` — Chat endpoints
-- `qna/generate/route.ts` — Generate Q&A
-- `qna/topics/route.ts` — Topics metadata
-- `upload/init/route.ts` and `upload/route.ts` — Upload handlers
+```bash
+npm run build
+```
+Build production application.
 
-## 📚 Documentation
+```bash
+npm run start
+```
+Start production server.
 
-- **📘 Docs Hub:** [View Documentation](https://drive.google.com/file/d/1QU8vdC-f3JLUmVnEqb8MRGlvGCneVFrA/view)
-- **🎥 Video Guide:** [Watch on YouTube](https://youtu.be/DzG_FQJkbAA?si=_FozVdJELSWYFovM)
-- **🧰 Installation Guide:** [Open Google Doc](https://drive.google.com/file/d/1ddnYoN5SRydPX6gg-2T6K_LbyNhOXlyg/view)
-- **📊 Project Overview (PPT):** [View Presentation](https://drive.google.com/file/d/1ddnYoN5SRydPX6gg-2T6K_LbyNhOXlyg/view?usp=drive_link)
-- **🧠 API Reference:**  
-  - [Google Cloud API Docs](https://docs.cloud.google.com/apis/docs/overview)  
-  - [Supabase API Docs](https://supabase.com/docs/guides/api)
+```bash
+npm run lint
+```
+Run ESLint checks.
 
+---
+
+## 🔌 API Routes
+
+Located inside:
+
+```text
+Web-Application/app/api
+```
+
+### Chat
+
+```text
+chat/route.ts
+```
+
+Handles chat functionality.
+
+### Q&A Generation
+
+```text
+qna/generate/route.ts
+```
+
+Generates lecture-based questions and answers.
+
+### Topics
+
+```text
+qna/topics/route.ts
+```
+
+Provides topic metadata.
+
+### Uploads
+
+```text
+upload/init/route.ts
+upload/route.ts
+```
+
+Handles lecture and slide uploads.
+
+---
 
 ## 🔮 Roadmap
 
-- [ ] Next.js web application foundation
-- [ ] Component library & dashboards
-- [ ] Multimodal pipeline integration (Python → Web)
-- [ ] Summarization + Q&A at scale
-- [ ] Slides pipeline UX + progress tracking
-- [ ] Analytics & export
+### Core Platform
+- [ ] Improve lecture processing pipeline
+- [ ] Expand multimodal understanding
+- [ ] Optimize retrieval performance
+
+### User Experience
+- [ ] Enhanced student dashboard
+- [ ] Advanced professor tools
+- [ ] Improved upload workflow
+
+### AI Features
+- [ ] Better summarization quality
+- [ ] Personalized study plans
+- [ ] Context-aware Q&A generation
+- [ ] Advanced semantic search
+
+### Deployment
+- [ ] Scalable cloud infrastructure
+- [ ] Monitoring and analytics
+- [ ] Production optimization
+
+---
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch: `git checkout -b feat/your-feature`
-3. Commit: `git commit -m "feat: add your feature"`
-4. Push: `git push origin feat/your-feature`
+
+2. Create a feature branch
+
+```bash
+git checkout -b feat/your-feature
+```
+
+3. Commit changes
+
+```bash
+git commit -m "feat: add your feature"
+```
+
+4. Push branch
+
+```bash
+git push origin feat/your-feature
+```
+
 5. Open a Pull Request
 
-### Code Guidelines
-- Consistent TypeScript and Python styles
-- Lint before PRs; add tests where applicable
-- Keep components modular and typed
+### Contribution Guidelines
 
-## 📝 License
+- Follow TypeScript best practices
+- Follow Python coding standards
+- Write clean and maintainable code
+- Add tests where appropriate
+- Keep components modular and reusable
 
-IIT Mandi - IHub Hackathon
-
-## 🙌 Acknowledgments
-
-- Radix UI, shadcn/ui, Tailwind CSS, Next.js
-- Supabase for auth/storage utilities
+---
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/solar.png" alt="divider" />
-  <br/>
-  <i>Built with ❤️ for the future of education</i>
+  <b>Building the future of intelligent learning through multimodal AI.</b>
 </p>
