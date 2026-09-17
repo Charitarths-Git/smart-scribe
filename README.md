@@ -20,12 +20,6 @@ An AI-powered platform that enhances lectures with multimodal processing, intell
 
 <div align="center">
 
-[View Demo ▶️](https://youtu.be/DzG_FQJkbAA?si=_FozVdJELSWYFovM) · 
-[Slides 📋](https://drive.google.com/file/d/1ddnYoN5SRydPX6gg-2T6K_LbyNhOXlyg/view?usp=drive_link) · 
-[Docs 📖](https://drive.google.com/file/d/1QU8vdC-f3JLUmVnEqb8MRGlvGCneVFrA/view) · 
-[Install Guide 🛠️](https://docs.google.com/document/d/12SVAEacqcgggpBd9ZEuPtTzkk854s6yFGcVeqSDfwHc/edit?usp=drive_link)
-
-
 </div>
 
 <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/water.png" alt="divider" />
