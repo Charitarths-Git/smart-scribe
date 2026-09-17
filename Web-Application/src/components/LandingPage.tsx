@@ -294,7 +294,7 @@ export function LandingPage({ onLogin }: LandingPageProps) {
           transition={{ delay: 0.8 }}
           className="mt-16 text-center text-gray-500"
         >
-          <p>iHub Hackathon 2025 • Smart Scribes Team</p>
+          <p>Smart Scribes</p>
         </motion.div>
       </div>
     </div>

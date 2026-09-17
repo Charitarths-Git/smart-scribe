@@ -2,7 +2,6 @@
 """
 Smart Scribes - Ultimate Manim Animation System
 Combines multi-agent architecture with detailed prompt engineering
-For iHub Hackathon 2025
 """
 
 import os
