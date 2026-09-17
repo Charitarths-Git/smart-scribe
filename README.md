@@ -1,5 +1,7 @@
 # Smart Scribes
 
+**Author:** [Charitarths-Git](https://github.com/Charitarths-Git) (`charitarthsingh130git@gmail.com`)
+
 <p align="center">
   <img src="https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=nextdotjs" alt="Next.js" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
@@ -198,8 +200,8 @@ Smart-Scribes/
 
 ### Clone
 ```bash
-git clone https://github.com/Kartavya728/Smart-Scribes.git
-cd Smart-Scribes
+git clone https://github.com/Charitarths-Git/smart-scribe.git
+cd smart-scribe
 ```
 
 ### Web Application

@@ -1,6 +1,7 @@
 {
     "name": "smart-scribes-website",
     "version": "0.1.0",
+    "author": "Charitarths-Git <charitarthsingh130git@gmail.com> (https://github.com/Charitarths-Git)",
     "private": true,
     "dependencies": {
         "@google-cloud/storage": "^7.17.2",
